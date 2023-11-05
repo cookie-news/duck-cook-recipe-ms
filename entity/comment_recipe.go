@@ -1,7 +1,7 @@
 package entity
 
 type CommentRecipe struct {
-	Message string `json:"message"`
-	Id      string `json:"id,omitempty"`
-	Recipe  `json:"-"`
+	Message   string `json:"message"`
+	IdComment string `json:"id,omitempty"`
+	Recipe    `json:"-"`
 }

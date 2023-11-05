@@ -80,7 +80,7 @@ func (s *Server) Start(addr string) error {
 				comment := recipe.Group("comment")
 				{
 					comment.POST("", s.controller.CommentRecipeUserHandler)
-					comment.DELETE("/:idComment", s.controller.CommentRecipeUserHandler)
+					comment.DELETE("/:idComment", s.controller.DeleteRecipeHandler)
 				}
 				like := recipe.Group("/like")
 				{
@@ -95,6 +95,7 @@ func (s *Server) Start(addr string) error {
 			recipe.POST("", s.controller.CreateRecipeHandler)
 			recipe.PUT("", s.controller.UpdateRecipeHandler)
 			recipe.DELETE("/:id", s.controller.DeleteRecipeHandler)
+			recipe.GET("/:id/comment", s.controller.GetCommentsHandler)
 		}
 	}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

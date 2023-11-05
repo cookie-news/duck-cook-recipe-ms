@@ -151,6 +151,26 @@ func (c *Controller) CommentRecipeUserHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, comment)
 }
 
+// @Summary		Comentarios da receita
+// @Description	Comentarios da receita
+// @Tags		comment-recipe
+// @Accept		json
+// @Produce		json
+// @Param       id        path      int  true  "Recipe ID"
+// @Success		200		{object}	[]entity.CommentRecipe
+// @Router		/recipe/{id}/comment [get]
+func (c *Controller) GetCommentsHandler(ctx *gin.Context) {
+	recipeId := ctx.Param("id")
+
+	comments, err := c.commentRecipe.GetCommentsByRecipe(recipeId)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, comments)
+}
+
 // @Summary		Deleta o comentário da receita
 // @Description	Delete o comentário da receita
 // @Tags		comment-recipe
@@ -167,7 +187,7 @@ func (c *Controller) DeleteRecipeUserHandler(ctx *gin.Context) {
 	idComment := ctx.Param("idComment")
 
 	err := c.commentRecipe.DeleteCommentRecipeByUser(entity.CommentRecipe{
-		Id: idComment,
+		IdComment: idComment,
 		Recipe: entity.Recipe{
 			Id:     recipeId,
 			IdUser: userId,

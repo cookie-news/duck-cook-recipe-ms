@@ -10,7 +10,8 @@ import (
 )
 
 const (
-	COLLETCTION_RECIPE = "Recipe"
+	COLLETCTION_RECIPE         = "Recipe"
+	COLLETCTION_COMMENT_RECIPE = "CommentRecipe"
 )
 
 func Connect() mongo.Database {
