@@ -10,7 +10,7 @@ services:
       - mongo.env  
     networks:
       - monitoring-network         
-  duck_cook_auth:
+  duck_cook_recipe:
     build:
       dockerfile: ./docker/go.Dockerfile
       context: .
@@ -18,7 +18,7 @@ services:
     networks:
       - monitoring-network
     ports:
-      - "8082:8080"
+      - "8080:8080"
     depends_on:
       - redis
       - prometheus  
@@ -29,5 +29,4 @@ networks:
   monitoring-network:
     driver: bridge   
 volumes:
-  cache:  
   mongodb_data:    
