@@ -12,6 +12,7 @@ import (
 const (
 	COLLETCTION_RECIPE         = "Recipe"
 	COLLETCTION_COMMENT_RECIPE = "CommentRecipe"
+	COLLETCTION_LIKE_RECIPE    = "LikeRecipe"
 )
 
 func Connect() mongo.Database {

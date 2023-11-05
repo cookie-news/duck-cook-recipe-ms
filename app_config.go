@@ -5,6 +5,7 @@ import (
 	"duck-cook-recipe/controller"
 	"duck-cook-recipe/pkg/mongo"
 	"duck-cook-recipe/repository/comment_repository"
+	"duck-cook-recipe/repository/like_repository"
 	"duck-cook-recipe/repository/recipe_repository"
 
 	"github.com/joho/godotenv"
@@ -21,8 +22,9 @@ func NewAppConfig() AppConfig {
 
 	recipeRepository := recipe_repository.New(mongoDb)
 	commentRepository := comment_repository.New(mongoDb)
+	likeRepository := like_repository.New(mongoDb)
 
-	controller := controller.NewController(recipeRepository, commentRepository)
+	controller := controller.NewController(recipeRepository, commentRepository, likeRepository)
 	server := api.NewServer(controller)
 
 	return AppConfig{

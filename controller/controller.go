@@ -3,16 +3,19 @@ package controller
 import "duck-cook-recipe/api/repository"
 
 type Controller struct {
-	recipeRepository repository.RecipeRepository
-	commentRecipe    repository.CommentRecipeRepository
+	recipeRepository     repository.RecipeRepository
+	commentRecipe        repository.CommentRecipeRepository
+	likeRecipeRepository repository.LikeRecipeRepository
 }
 
 func NewController(
 	recipeRepository repository.RecipeRepository,
-	commentRecipe repository.CommentRecipeRepository,
+	commentRecipeRepository repository.CommentRecipeRepository,
+	likeRecipeRepository repository.LikeRecipeRepository,
 ) Controller {
 	return Controller{
 		recipeRepository,
-		commentRecipe,
+		commentRecipeRepository,
+		likeRecipeRepository,
 	}
 }
