@@ -82,7 +82,7 @@ func (c *Controller) GetRecipeHandler(ctx *gin.Context) {
 // @Tags		recipe
 // @Accept		json
 // @Produce		json
-// @Param		payload	body		entity.Recipe	true	"Dados da receita"
+// @Param        id   path      int  true  "User ID"
 // @Success		200		{object}	entity.Recipe
 // @Router		/user/{id}/recipe [get]
 func (c *Controller) GetRecipeUserHandler(ctx *gin.Context) {
@@ -104,7 +104,7 @@ func (c *Controller) GetRecipeUserHandler(ctx *gin.Context) {
 // @Tags		recipe
 // @Accept		json
 // @Produce		json
-// @Param		payload	body		entity.Recipe	true	"Dados da receita"
+// @Param        id   path      int  true  "Recipe ID"
 // @Success		200		{object}	entity.Recipe
 // @Router		/recipe/{id} [delete]
 func (c *Controller) DeleteRecipeHandler(ctx *gin.Context) {

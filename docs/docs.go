@@ -127,13 +127,11 @@ const docTemplate = `{
                 "summary": "Adicionar nova receita",
                 "parameters": [
                     {
-                        "description": "Dados da receita",
-                        "name": "payload",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Recipe"
-                        }
+                        "type": "integer",
+                        "description": "Recipe ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -161,13 +159,11 @@ const docTemplate = `{
                 "summary": "Retonar as receitas do usuário",
                 "parameters": [
                     {
-                        "description": "Dados da receita",
-                        "name": "payload",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Recipe"
-                        }
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {

@@ -70,12 +70,11 @@ paths:
       - application/json
       description: Adicionar uma nova receita
       parameters:
-      - description: Dados da receita
-        in: body
-        name: payload
+      - description: Recipe ID
+        in: path
+        name: id
         required: true
-        schema:
-          $ref: '#/definitions/entity.Recipe'
+        type: integer
       produces:
       - application/json
       responses:
@@ -112,12 +111,11 @@ paths:
       - application/json
       description: Retonar as receitas do usuário
       parameters:
-      - description: Dados da receita
-        in: body
-        name: payload
+      - description: User ID
+        in: path
+        name: id
         required: true
-        schema:
-          $ref: '#/definitions/entity.Recipe'
+        type: integer
       produces:
       - application/json
       responses:
