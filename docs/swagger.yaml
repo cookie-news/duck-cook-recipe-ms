@@ -1,0 +1,131 @@
+definitions:
+  entity.Recipe:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      idUser:
+        type: string
+      imageUrl:
+        example: url da imagem
+        format: string
+        type: string
+      preparationTime:
+        example: 600
+        format: int64
+        type: integer
+      title:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /recipe:
+    post:
+      consumes:
+      - application/json
+      description: Adicionar uma nova receita
+      parameters:
+      - description: Dados da receita
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Recipe'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Recipe'
+      summary: Adicionar nova receita
+      tags:
+      - recipe
+    put:
+      consumes:
+      - application/json
+      description: Atualizar a receita
+      parameters:
+      - description: Dados da receita
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Recipe'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Recipe'
+      summary: Atualizar a receita
+      tags:
+      - recipe
+  /recipe/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Adicionar uma nova receita
+      parameters:
+      - description: Dados da receita
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Recipe'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Recipe'
+      summary: Adicionar nova receita
+      tags:
+      - recipe
+    get:
+      consumes:
+      - application/json
+      description: Retorna a receita
+      parameters:
+      - description: Recipe ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Recipe'
+      summary: Retorna a receita
+      tags:
+      - recipe
+  /user/{id}/recipe:
+    get:
+      consumes:
+      - application/json
+      description: Retonar as receitas do usuário
+      parameters:
+      - description: Dados da receita
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Recipe'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Recipe'
+      summary: Retonar as receitas do usuário
+      tags:
+      - recipe
+swagger: "2.0"
