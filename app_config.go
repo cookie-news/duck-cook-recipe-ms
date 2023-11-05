@@ -20,7 +20,7 @@ func NewAppConfig() AppConfig {
 
 	recipeRepository := recipe_repository.New(mongoDb)
 
-	controller := controller.NewController(recipeRepository)
+	controller := controller.NewController(recipeRepository, nil)
 	server := api.NewServer(controller)
 
 	return AppConfig{

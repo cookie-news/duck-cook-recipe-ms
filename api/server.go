@@ -72,12 +72,28 @@ func (s *Server) Start(addr string) error {
 
 	v1 := r.Group("/v1")
 	{
-		v1.GET("/user/:id/recipe", s.controller.GetRecipeUserHandler)
+		user := v1.Group("/user/:id")
+		{
+			recipe := user.Group("/recipe/:idRecipe")
+			{
+				recipe.GET("", s.controller.GetRecipeUserHandler)
+				comment := recipe.Group("comment")
+				{
+					comment.POST("", s.controller.CommentRecipeUserHandler)
+					comment.DELETE("/:idComment", s.controller.CommentRecipeUserHandler)
+				}
+				like := recipe.Group("/like")
+				{
+					like.POST("")
+					like.DELETE("")
+				}
+			}
+		}
 		recipe := v1.Group("/recipe")
 		{
-			recipe.GET("/", s.controller.GetRecipeHandler)
-			recipe.POST("/", s.controller.CreateRecipeHandler)
-			recipe.PUT("/", s.controller.UpdateRecipeHandler)
+			recipe.GET("", s.controller.GetRecipeHandler)
+			recipe.POST("", s.controller.CreateRecipeHandler)
+			recipe.PUT("", s.controller.UpdateRecipeHandler)
 			recipe.DELETE("/:id", s.controller.DeleteRecipeHandler)
 		}
 	}
