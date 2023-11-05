@@ -40,7 +40,7 @@ func (c *Controller) LikeRecipeUserHandler(ctx *gin.Context) {
 // @Accept		json
 // @Produce		json
 // @Param       id        path      int  true  "Recipe ID"
-// @Success		200		{int}
+// @Success		200		{int}  100
 // @Router		/recipe/{id}/comment [get]
 func (c *Controller) GetLikesHandler(ctx *gin.Context) {
 	recipeId := ctx.Param("id")

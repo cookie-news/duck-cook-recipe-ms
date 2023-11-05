@@ -110,6 +110,27 @@ paths:
       summary: Retorna a receita
       tags:
       - recipe
+  /recipe/{id}/comment:
+    get:
+      consumes:
+      - application/json
+      description: likes da receita
+      parameters:
+      - description: Recipe ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: int
+      summary: Likes da receita
+      tags:
+      - like-recipe
   /user/{id}/recipe:
     get:
       consumes:
@@ -194,4 +215,61 @@ paths:
       summary: Deleta o comentário da receita
       tags:
       - comment-recipe
+  /user/{id}/recipe/{idRecipe}/like:
+    post:
+      consumes:
+      - application/json
+      description: Like na receita baseado no usuário
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User ID
+        in: path
+        name: idRecipe
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Recipe'
+      summary: Like na receita
+      tags:
+      - like-recipe
+  /user/{id}/recipe/{idRecipe}/like/{idLike}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete o like da receita
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Recipe ID
+        in: path
+        name: idRecipe
+        required: true
+        type: integer
+      - description: Like ID
+        in: path
+        name: idLike
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+      summary: Deleta o like da receita
+      tags:
+      - like-recipe
 swagger: "2.0"

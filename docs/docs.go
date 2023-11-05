@@ -141,6 +141,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/recipe/{id}/comment": {
+            "get": {
+                "description": "likes da receita",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "like-recipe"
+                ],
+                "summary": "Likes da receita",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Recipe ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "int"
+                        }
+                    }
+                }
+            }
+        },
         "/user/{id}/recipe": {
             "get": {
                 "description": "Retonar as receitas do usuário",
@@ -253,6 +285,91 @@ const docTemplate = `{
                         "type": "integer",
                         "description": "Comment ID",
                         "name": "idComment",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}/recipe/{idRecipe}/like": {
+            "post": {
+                "description": "Like na receita baseado no usuário",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "like-recipe"
+                ],
+                "summary": "Like na receita",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "idRecipe",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Recipe"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}/recipe/{idRecipe}/like/{idLike}": {
+            "delete": {
+                "description": "Delete o like da receita",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "like-recipe"
+                ],
+                "summary": "Deleta o like da receita",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Recipe ID",
+                        "name": "idRecipe",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Like ID",
+                        "name": "idLike",
                         "in": "path",
                         "required": true
                     }
