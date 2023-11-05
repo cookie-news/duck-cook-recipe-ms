@@ -135,11 +135,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/entity.Recipe"
-                        }
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -175,9 +172,114 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/user/{id}/recipe/{idRecipe}/comment": {
+            "post": {
+                "description": "Comenta na receita baseado no usuário",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment-recipe"
+                ],
+                "summary": "Comenta na receita",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "idRecipe",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Comentário",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.CommentRecipe"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Recipe"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}/recipe/{idRecipe}/comment/{idComment}": {
+            "delete": {
+                "description": "Delete o comentário da receita",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment-recipe"
+                ],
+                "summary": "Deleta o comentário da receita",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Recipe ID",
+                        "name": "idRecipe",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Comment ID",
+                        "name": "idComment",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "entity.CommentRecipe": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "entity.Recipe": {
             "type": "object",
             "properties": {

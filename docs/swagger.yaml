@@ -1,4 +1,11 @@
 definitions:
+  entity.CommentRecipe:
+    properties:
+      id:
+        type: string
+      message:
+        type: string
+    type: object
   entity.Recipe:
     properties:
       description:
@@ -78,10 +85,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/entity.Recipe'
+        "204":
+          description: No Content
       summary: Adicionar nova receita
       tags:
       - recipe
@@ -126,4 +131,67 @@ paths:
       summary: Retonar as receitas do usuário
       tags:
       - recipe
+  /user/{id}/recipe/{idRecipe}/comment:
+    post:
+      consumes:
+      - application/json
+      description: Comenta na receita baseado no usuário
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User ID
+        in: path
+        name: idRecipe
+        required: true
+        type: integer
+      - description: Comentário
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/entity.CommentRecipe'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Recipe'
+      summary: Comenta na receita
+      tags:
+      - comment-recipe
+  /user/{id}/recipe/{idRecipe}/comment/{idComment}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete o comentário da receita
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Recipe ID
+        in: path
+        name: idRecipe
+        required: true
+        type: integer
+      - description: Comment ID
+        in: path
+        name: idComment
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+      summary: Deleta o comentário da receita
+      tags:
+      - comment-recipe
 swagger: "2.0"
