@@ -45,6 +45,12 @@ func (s *Server) Start(addr string) error {
 	})
 
 	r.Use(func(ctx *gin.Context) {
+		switch ctx.FullPath() {
+		case "/swagger/*any":
+			ctx.Next()
+			return
+		}
+
 		auth := ctx.GetHeader("authorization")
 
 		client := resty.New()
