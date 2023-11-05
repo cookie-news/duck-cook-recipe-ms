@@ -114,6 +114,29 @@ paths:
     get:
       consumes:
       - application/json
+      description: Comentarios da receita
+      parameters:
+      - description: Recipe ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.CommentRecipe'
+            type: array
+      summary: Comentarios da receita
+      tags:
+      - comment-recipe
+  /recipe/{id}/like:
+    get:
+      consumes:
+      - application/json
       description: likes da receita
       parameters:
       - description: Recipe ID

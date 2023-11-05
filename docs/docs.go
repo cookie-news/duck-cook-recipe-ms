@@ -143,6 +143,41 @@ const docTemplate = `{
         },
         "/recipe/{id}/comment": {
             "get": {
+                "description": "Comentarios da receita",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment-recipe"
+                ],
+                "summary": "Comentarios da receita",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Recipe ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.CommentRecipe"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/recipe/{id}/like": {
+            "get": {
                 "description": "likes da receita",
                 "consumes": [
                     "application/json"
