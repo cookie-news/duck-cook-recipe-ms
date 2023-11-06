@@ -6,6 +6,15 @@ definitions:
       message:
         type: string
     type: object
+  entity.Ingredients:
+    properties:
+      measure:
+        type: string
+      name:
+        type: string
+      qty:
+        type: integer
+    type: object
   entity.Recipe:
     properties:
       description:
@@ -18,6 +27,10 @@ definitions:
         example: url da imagem
         format: string
         type: string
+      ingredients:
+        items:
+          $ref: '#/definitions/entity.Ingredients'
+        type: array
       preparationTime:
         example: 600
         format: int64

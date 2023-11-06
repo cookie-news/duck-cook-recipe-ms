@@ -432,6 +432,20 @@ const docTemplate = `{
                 }
             }
         },
+        "entity.Ingredients": {
+            "type": "object",
+            "properties": {
+                "measure": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "qty": {
+                    "type": "integer"
+                }
+            }
+        },
         "entity.Recipe": {
             "type": "object",
             "properties": {
@@ -448,6 +462,12 @@ const docTemplate = `{
                     "type": "string",
                     "format": "string",
                     "example": "url da imagem"
+                },
+                "ingredients": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Ingredients"
+                    }
                 },
                 "preparationTime": {
                     "type": "integer",

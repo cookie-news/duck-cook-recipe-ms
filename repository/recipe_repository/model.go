@@ -16,9 +16,39 @@ type Recipe struct {
 	Description     string             `bson:"description"`
 	PreparationTime int                `bson:"preparationTime"`
 	ImageUrl        string             `bson:"imageUrl"`
+	Ingredients     []Ingredient       `bson:"ingredients"`
+}
+
+type Ingredient struct {
+	Name     string  `bson:"name"`
+	Quantity float64 `bson:"qty"`
+	Measure  string  `bson:"measure"`
+}
+
+func (ingredient Ingredient) ToEntity() entity.Ingredients {
+	return entity.Ingredients{
+		Name:    ingredient.Name,
+		Qty:     ingredient.Quantity,
+		Measure: ingredient.Measure,
+	}
+}
+
+func (Ingredient) FromEntity(ingredient entity.Ingredients) Ingredient {
+	return Ingredient{
+		Name:     ingredient.Name,
+		Quantity: ingredient.Qty,
+		Measure:  ingredient.Measure,
+	}
 }
 
 func (recipe Recipe) ToEntityRecipe() entity.Recipe {
+
+	var ingredients []entity.Ingredients
+
+	for _, ingredient := range recipe.Ingredients {
+		ingredients = append(ingredients, ingredient.ToEntity())
+	}
+
 	return entity.Recipe{
 		Id:              recipe.ID.Hex(),
 		IdUser:          recipe.IdUser.Hex(),
@@ -26,12 +56,21 @@ func (recipe Recipe) ToEntityRecipe() entity.Recipe {
 		Description:     recipe.Description,
 		PreparationTime: recipe.PreparationTime,
 		ImageUrl:        recipe.ImageUrl,
+		Ingredients:     ingredients,
 	}
 }
 
 func (Recipe) FromEntity(recipe entity.Recipe) *Recipe {
 	id, _ := primitive.ObjectIDFromHex(recipe.Id)
 	idUser, _ := primitive.ObjectIDFromHex(recipe.IdUser)
+
+	var ingredients []Ingredient
+
+	for _, ingredient := range recipe.Ingredients {
+		var ingredientModel Ingredient
+		ingredients = append(ingredients, ingredientModel.FromEntity(ingredient))
+	}
+
 	return &Recipe{
 		ID:              id,
 		IdUser:          idUser,
@@ -39,5 +78,6 @@ func (Recipe) FromEntity(recipe entity.Recipe) *Recipe {
 		Description:     recipe.Description,
 		PreparationTime: recipe.PreparationTime,
 		ImageUrl:        recipe.ImageUrl,
+		Ingredients:     ingredients,
 	}
 }
