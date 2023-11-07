@@ -13,6 +13,20 @@ definitions:
       name:
         type: string
       qty:
+        type: number
+    type: object
+  entity.Pagination:
+    properties:
+      currentPage:
+        type: integer
+      items: {}
+      next:
+        type: integer
+      previous:
+        type: integer
+      recordPerPage:
+        type: integer
+      totalPage:
         type: integer
     type: object
   entity.Recipe:
@@ -41,6 +55,27 @@ definitions:
 info:
   contact: {}
 paths:
+  /page/{page}:
+    get:
+      consumes:
+      - application/json
+      description: Retorna as receita paginadas
+      parameters:
+      - description: Número da page
+        in: path
+        name: page
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Pagination'
+      summary: Retorna as receita paginadas
+      tags:
+      - recipe
   /recipe:
     post:
       consumes:

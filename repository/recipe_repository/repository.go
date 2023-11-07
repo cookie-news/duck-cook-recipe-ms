@@ -2,6 +2,7 @@ package recipe_repository
 
 import (
 	"context"
+	api_helper "duck-cook-recipe/api/helper"
 	"duck-cook-recipe/api/repository"
 	"duck-cook-recipe/entity"
 	"encoding/json"
@@ -15,12 +16,42 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 
 	_mongo "duck-cook-recipe/pkg/mongo"
 )
 
 type repositoryImpl struct {
 	recipeCollection *mongo.Collection
+}
+
+func (repo repositoryImpl) GetAllRecipe(page int) (pagination entity.Pagination, err error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	limit := int64(10)
+	p := int64(page)
+	skip := int64(p*limit - limit)
+	fOpt := options.FindOptions{Limit: &limit, Skip: &skip}
+
+	curso, err := repo.recipeCollection.Find(ctx, bson.D{{}}, &fOpt)
+	if err != nil {
+		return pagination, err
+	}
+	var list []entity.Recipe
+	for curso.Next(ctx) {
+		var recipe Recipe
+		if err := curso.Decode(&recipe); err != nil {
+			fmt.Println(err)
+		}
+
+		list = append(list, recipe.ToEntityRecipe())
+	}
+	pagination = api_helper.CreatePage(func() int {
+		count, _ := repo.recipeCollection.CountDocuments(ctx, bson.M{})
+		return int(count)
+	}, int(limit), page)
+	pagination.Items = list
+	return pagination, nil
 }
 
 func (repo repositoryImpl) CreateRecipe(recipe entity.Recipe) (entity.Recipe, error) {

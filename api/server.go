@@ -91,7 +91,8 @@ func (s *Server) Start(addr string) error {
 		}
 		recipe := v1.Group("/recipe")
 		{
-			recipe.GET("", s.controller.GetRecipeHandler)
+			recipe.GET("/:id", s.controller.GetRecipeHandler)
+			recipe.GET("/page/:page", s.controller.GetPageRecipesHandler)
 			recipe.POST("", s.controller.CreateRecipeHandler)
 			recipe.PUT("", s.controller.UpdateRecipeHandler)
 			recipe.DELETE("/:id", s.controller.DeleteRecipeHandler)
