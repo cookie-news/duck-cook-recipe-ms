@@ -14,7 +14,13 @@ import (
 // @Tags		recipe
 // @Accept		json
 // @Produce		json
-// @Param		payload	body		entity.Recipe	true	"Dados da receita"
+// @Param id formData string true "ID da Receita"
+// @Param idUser formData string true "ID do Usuário"
+// @Param title formData string true "Título da Receita"
+// @Param description formData string true "Descrição da Receita"
+// @Param preparationTime formData int true "Tempo de Preparação da Receita"
+// @Param images formData file true "Imagem da Receita"
+// @Param ingredients formData string true "ingredientes da Receita"
 // @Success		200		{object}	entity.Recipe
 // @Router		/recipe [post]
 func (c *Controller) CreateRecipeHandler(ctx *gin.Context) {

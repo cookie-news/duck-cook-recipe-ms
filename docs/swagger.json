@@ -24,6 +24,20 @@
                         "name": "page",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Recipe name",
+                        "name": "nameRecipe",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Número da page",
+                        "name": "nameIngredin",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -83,13 +97,53 @@
                 "summary": "Adicionar nova receita",
                 "parameters": [
                     {
-                        "description": "Dados da receita",
-                        "name": "payload",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Recipe"
-                        }
+                        "type": "string",
+                        "description": "ID da Receita",
+                        "name": "id",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "ID do Usuário",
+                        "name": "idUser",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Título da Receita",
+                        "name": "title",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Descrição da Receita",
+                        "name": "description",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Tempo de Preparação da Receita",
+                        "name": "preparationTime",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Imagem da Receita",
+                        "name": "images",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "ingredientes da Receita",
+                        "name": "ingredients",
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -506,7 +560,7 @@
                     "type": "string"
                 },
                 "ingredients": {
-                    "description": "Images          []*multipart.FileHeader `form:\"images\" example:\"arquivos de imagens\" json:\"images\" format:\"file\" binding:\"required\"`",
+                    "description": "Images          []*multipart.FileHeader `form:\"images\" example:\"arquivos de imagens\" json:\"images\" format:\"blob\" binding:\"required\"`",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/entity.Ingredients"

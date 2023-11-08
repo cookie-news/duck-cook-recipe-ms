@@ -39,7 +39,7 @@ definitions:
         type: string
       ingredients:
         description: Images          []*multipart.FileHeader `form:"images" example:"arquivos
-          de imagens" json:"images" format:"file" binding:"required"`
+          de imagens" json:"images" format:"blob" binding:"required"`
         items:
           $ref: '#/definitions/entity.Ingredients'
         type: array
@@ -69,6 +69,16 @@ paths:
         name: page
         required: true
         type: integer
+      - description: Recipe name
+        in: query
+        name: nameRecipe
+        required: true
+        type: integer
+      - description: Número da page
+        in: query
+        name: nameIngredin
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -85,12 +95,41 @@ paths:
       - application/json
       description: Adicionar uma nova receita
       parameters:
-      - description: Dados da receita
-        in: body
-        name: payload
+      - description: ID da Receita
+        in: formData
+        name: id
         required: true
-        schema:
-          $ref: '#/definitions/entity.Recipe'
+        type: string
+      - description: ID do Usuário
+        in: formData
+        name: idUser
+        required: true
+        type: string
+      - description: Título da Receita
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Descrição da Receita
+        in: formData
+        name: description
+        required: true
+        type: string
+      - description: Tempo de Preparação da Receita
+        in: formData
+        name: preparationTime
+        required: true
+        type: integer
+      - description: Imagem da Receita
+        in: formData
+        name: images
+        required: true
+        type: file
+      - description: ingredientes da Receita
+        in: formData
+        name: ingredients
+        required: true
+        type: string
       produces:
       - application/json
       responses:

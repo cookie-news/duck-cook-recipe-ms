@@ -20,8 +20,8 @@ func NewServer(controller controller.Controller) *Server {
 
 func (s *Server) Start(addr string) error {
 
-	docs.SwaggerInfo.Title = "Duck Cook Receipe"
-	docs.SwaggerInfo.Description = "Duck Cook Receipe"
+	docs.SwaggerInfo.Title = "Duck Cook Recipe"
+	docs.SwaggerInfo.Description = "Duck Cook Recipe"
 	docs.SwaggerInfo.Version = "0.0.1"
 	docs.SwaggerInfo.BasePath = "/v1"
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
