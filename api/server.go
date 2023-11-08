@@ -3,9 +3,11 @@ package api
 import (
 	"duck-cook-recipe/controller"
 	"duck-cook-recipe/docs"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-resty/resty/v2"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -49,23 +51,23 @@ func (s *Server) Start(addr string) error {
 			return
 		}
 
-		// auth := ctx.GetHeader("authorization")
+		auth := ctx.GetHeader("authorization")
 
-		// client := resty.New()
-		// client.BaseURL = os.Getenv("URL_AUTH")
+		client := resty.New()
+		client.BaseURL = os.Getenv("URL_AUTH")
 
-		// resp, _ := client.R().
-		// 	SetHeader("authorization", auth).
-		// 	Post("/v1/auth/verify-jwt")
+		resp, _ := client.R().
+			SetHeader("authorization", auth).
+			Post("/v1/auth/verify-jwt")
 
-		// if resp.StatusCode() == http.StatusNoContent {
-		// 	ctx.Next()
-		// 	return
-		// } else {
-		// 	ctx.String(resp.StatusCode(), resp.String())
-		// 	ctx.Abort()
-		// 	return
-		// }
+		if resp.StatusCode() == http.StatusNoContent {
+			ctx.Next()
+			return
+		} else {
+			ctx.String(resp.StatusCode(), resp.String())
+			ctx.Abort()
+			return
+		}
 	})
 
 	v1 := r.Group("/v1")

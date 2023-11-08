@@ -109,7 +109,9 @@ func (c *Controller) GetPageRecipesHandler(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, pageRecipes)
+	files, _ := c.recipeStorage.ListFiles("654ae0e7bba9ba3ad1db8bb4")
+
+	ctx.JSON(http.StatusOK, gin.H{"pageRecipes": pageRecipes, "files": files})
 }
 
 // @Summary		Retonar as receitas do usuário
@@ -128,6 +130,10 @@ func (c *Controller) GetRecipeUserHandler(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	/*
+		@TODO FAZER URL DA IMAGEM
+	*/
 
 	ctx.JSON(http.StatusOK,
 		recipe,

@@ -10,13 +10,13 @@ import (
 )
 
 type storageImpl struct {
-	client storage_go.Client
+	client     storage_go.Client
+	bucketname string
 }
 
 func (c *storageImpl) UploadImage(images []*multipart.FileHeader, id string) ([]string, error) {
 	var urls []string
 	var updateError error
-	bucketname := os.Getenv("SUPABASE_BUCKET_ID")
 
 	for _, img := range images {
 		file, err := img.Open()
@@ -27,13 +27,13 @@ func (c *storageImpl) UploadImage(images []*multipart.FileHeader, id string) ([]
 			updateError = err
 		}
 
-		result, err := c.client.UploadFile(bucketname, id+"/"+imageName, file, storage_go.FileOptions{ContentType: &contentType})
+		result, err := c.client.UploadFile(c.bucketname, id+"/"+imageName, file, storage_go.FileOptions{ContentType: &contentType})
 
 		if err != nil {
 			updateError = err
 		}
 
-		url := c.GetPublicUrl(result.Key)
+		url := c.GetPublicUrl(result.Key, "", "")
 
 		urls = append(urls, url)
 	}
@@ -41,10 +41,29 @@ func (c *storageImpl) UploadImage(images []*multipart.FileHeader, id string) ([]
 	return urls, updateError
 }
 
-func (c *storageImpl) GetPublicUrl(filename string) string {
-	return "https://dcqgxwhjxkkignjziqvf.supabase.co/storage/v1/object/public/" + filename
+func (c *storageImpl) GetPublicUrl(filename string, bucketname string, folderName string) string {
+	baseUrl := "https://dcqgxwhjxkkignjziqvf.supabase.co/storage/v1/object/public/"
+	if bucketname != "" {
+		return baseUrl + bucketname + "/" + folderName + "/" + filename
+	}
+	return baseUrl + filename
+}
+
+func (c *storageImpl) ListFiles(folderName string) (files []string, err error) {
+	filesStorage, err := c.client.ListFiles(c.bucketname, folderName, storage_go.FileSearchOptions{})
+
+	if err != nil {
+		return files, err
+	}
+
+	for _, image := range filesStorage {
+		files = append(files, c.GetPublicUrl(image.Name, c.bucketname, folderName))
+	}
+
+	return
 }
 
 func New(client storage_go.Client) repository.RecipeStorage {
-	return &storageImpl{client}
+	bucketname := os.Getenv("SUPABASE_BUCKET_ID")
+	return &storageImpl{client, bucketname}
 }
