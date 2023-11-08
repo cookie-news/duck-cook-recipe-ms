@@ -6,7 +6,7 @@ type RecipeRepository interface {
 	CreateRecipe(recipe entity.Recipe) (entity.RecipeResponse, error)
 	GetRecipe(id string) (recipe entity.RecipeResponse, err error)
 	UpdateRecipe(recipe entity.Recipe) (entity.RecipeResponse, error)
-	GetAllRecipe(page int) (pagination entity.Pagination, err error)
+	GetAllRecipe(page int, name, ingredient string) (pagination entity.Pagination, err error)
 	DeleteRecipe(id string) error
 	GetRecipesByUser(user string) (recipes []entity.RecipeResponse, err error)
 }

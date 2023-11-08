@@ -25,7 +25,7 @@ type repositoryImpl struct {
 	recipeCollection *mongo.Collection
 }
 
-func (repo repositoryImpl) GetAllRecipe(page int) (pagination entity.Pagination, err error) {
+func (repo repositoryImpl) GetAllRecipe(page int, name, ingredient string) (pagination entity.Pagination, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	limit := int64(10)
@@ -33,7 +33,14 @@ func (repo repositoryImpl) GetAllRecipe(page int) (pagination entity.Pagination,
 	skip := int64(p*limit - limit)
 	fOpt := options.FindOptions{Limit: &limit, Skip: &skip}
 
-	curso, err := repo.recipeCollection.Find(ctx, bson.D{{}}, &fOpt)
+	filter := bson.M{
+		"$or": []bson.M{
+			{"title": name},
+			{"ingredients.name": ingredient},
+		},
+	}
+
+	curso, err := repo.recipeCollection.Find(ctx, filter, &fOpt)
 	if err != nil {
 		return pagination, err
 	}
@@ -47,7 +54,7 @@ func (repo repositoryImpl) GetAllRecipe(page int) (pagination entity.Pagination,
 		list = append(list, recipe.ToEntityRecipeResponse())
 	}
 	pagination = api_helper.CreatePage(func() int {
-		count, _ := repo.recipeCollection.CountDocuments(ctx, bson.M{})
+		count, _ := repo.recipeCollection.CountDocuments(ctx, filter)
 		return int(count)
 	}, int(limit), page)
 	pagination.Items = list
