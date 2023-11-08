@@ -100,7 +100,10 @@ func (repo repositoryImpl) CreateRecipe(recipe entity.Recipe) (entity.RecipeResp
 func (repo repositoryImpl) DeleteRecipe(id string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
-	_, err := repo.recipeCollection.DeleteOne(ctx, bson.M{"_id": id})
+
+	objectId, _ := primitive.ObjectIDFromHex(id)
+
+	_, err := repo.recipeCollection.DeleteOne(ctx, bson.M{"_id": objectId})
 	return err
 }
 
@@ -108,7 +111,11 @@ func (repo repositoryImpl) GetRecipe(id string) (recipe entity.RecipeResponse, e
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
 	var recipeModel Recipe
-	err = repo.recipeCollection.FindOne(ctx, bson.M{"_id": id}).Decode(recipeModel)
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return
+	}
+	err = repo.recipeCollection.FindOne(ctx, bson.M{"_id": objectId}).Decode(&recipeModel)
 	return recipeModel.ToEntityRecipeResponse(), err
 }
 

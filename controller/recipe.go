@@ -85,6 +85,8 @@ func (c *Controller) GetRecipeHandler(ctx *gin.Context) {
 		return
 	}
 
+	recipe.Images, _ = c.recipeStorage.ListFiles(recipeId)
+
 	ctx.JSON(http.StatusOK, recipe)
 }
 
