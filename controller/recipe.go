@@ -17,19 +17,28 @@ import (
 // @Router		/recipe [post]
 func (c *Controller) CreateRecipeHandler(ctx *gin.Context) {
 	var recipe entity.Recipe
-	if err := ctx.ShouldBindJSON(&recipe); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Erro ao decodificar o JSON"})
+	if err := ctx.ShouldBind(&recipe); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	recipe, err := c.recipeRepository.CreateRecipe(recipe)
+	recipeResponse, err := c.recipeRepository.CreateRecipe(recipe)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+	url, err := c.recipeStorage.UploadImage(recipe.Images, recipeResponse.Id)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "An error occurred while saving your profile photo, but the username was created successfully"})
+		return
+	}
+
+	recipeResponse.Images = url
+
 	ctx.JSON(http.StatusCreated,
-		recipe,
+		recipeResponse,
 	)
 }
 
@@ -48,13 +57,13 @@ func (c *Controller) UpdateRecipeHandler(ctx *gin.Context) {
 		return
 	}
 
-	recipe, err := c.recipeRepository.UpdateRecipe(recipe)
+	recipeResponse, err := c.recipeRepository.UpdateRecipe(recipe)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, recipe)
+	ctx.JSON(http.StatusOK, recipeResponse)
 }
 
 // @Summary		Retorna a receita

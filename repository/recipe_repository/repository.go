@@ -23,7 +23,7 @@ type repositoryImpl struct {
 	recipeCollection *mongo.Collection
 }
 
-func (repo repositoryImpl) CreateRecipe(recipe entity.Recipe) (entity.Recipe, error) {
+func (repo repositoryImpl) CreateRecipe(recipe entity.Recipe) (entity.RecipeResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
 
@@ -48,7 +48,7 @@ func (repo repositoryImpl) CreateRecipe(recipe entity.Recipe) (entity.Recipe, er
 						match := re.FindStringSubmatch(fieldInfo)
 						if len(match) >= 2 {
 							fieldName := match[1]
-							return recipeModel.ToEntityRecipe(), errors.New("duplicate " + fieldName)
+							return recipeModel.ToEntityRecipeResponse(), errors.New("duplicate " + fieldName)
 						}
 					}
 
@@ -63,7 +63,7 @@ func (repo repositoryImpl) CreateRecipe(recipe entity.Recipe) (entity.Recipe, er
 
 	recipeModel.ID = res.InsertedID.(primitive.ObjectID)
 
-	return recipeModel.ToEntityRecipe(), nil
+	return recipeModel.ToEntityRecipeResponse(), nil
 }
 
 func (repo repositoryImpl) DeleteRecipe(id string) error {
@@ -73,15 +73,15 @@ func (repo repositoryImpl) DeleteRecipe(id string) error {
 	return err
 }
 
-func (repo repositoryImpl) GetRecipe(id string) (recipe entity.Recipe, err error) {
+func (repo repositoryImpl) GetRecipe(id string) (recipe entity.RecipeResponse, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
 	var recipeModel Recipe
 	err = repo.recipeCollection.FindOne(ctx, bson.M{"_id": id}).Decode(recipeModel)
-	return recipeModel.ToEntityRecipe(), err
+	return recipeModel.ToEntityRecipeResponse(), err
 }
 
-func (repo repositoryImpl) GetRecipesByUser(user string) (recipes []entity.Recipe, err error) {
+func (repo repositoryImpl) GetRecipesByUser(user string) (recipes []entity.RecipeResponse, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
 	curso, err := repo.recipeCollection.Find(ctx, bson.M{"idUser": user})
@@ -93,13 +93,13 @@ func (repo repositoryImpl) GetRecipesByUser(user string) (recipes []entity.Recip
 			fmt.Println(err)
 		}
 
-		recipes = append(recipes, recipeModel.ToEntityRecipe())
+		recipes = append(recipes, recipeModel.ToEntityRecipeResponse())
 	}
 
 	return
 }
 
-func (repo repositoryImpl) UpdateRecipe(recipe entity.Recipe) (entity.Recipe, error) {
+func (repo repositoryImpl) UpdateRecipe(recipe entity.Recipe) (entity.RecipeResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
 	var recipeModel Recipe
@@ -116,7 +116,7 @@ func (repo repositoryImpl) UpdateRecipe(recipe entity.Recipe) (entity.Recipe, er
 
 	_, err := repo.recipeCollection.UpdateOne(ctx, bson.M{"_id": recipeModel.ID}, update)
 
-	return recipeModel.ToEntityRecipe(), err
+	return recipeModel.ToEntityRecipeResponse(), err
 }
 
 func New(mongoDb mongo.Database) repository.RecipeRepository {

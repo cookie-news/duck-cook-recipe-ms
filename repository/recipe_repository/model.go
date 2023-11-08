@@ -15,7 +15,6 @@ type Recipe struct {
 	Title           string             `bson:"title"`
 	Description     string             `bson:"description"`
 	PreparationTime int                `bson:"preparationTime"`
-	ImageUrl        string             `bson:"imageUrl"`
 	Ingredients     []Ingredient       `bson:"ingredients"`
 }
 
@@ -41,7 +40,7 @@ func (Ingredient) FromEntity(ingredient entity.Ingredients) Ingredient {
 	}
 }
 
-func (recipe Recipe) ToEntityRecipe() entity.Recipe {
+func (recipe Recipe) ToEntityRecipeResponse() entity.RecipeResponse {
 
 	var ingredients []entity.Ingredients
 
@@ -49,14 +48,15 @@ func (recipe Recipe) ToEntityRecipe() entity.Recipe {
 		ingredients = append(ingredients, ingredient.ToEntity())
 	}
 
-	return entity.Recipe{
-		Id:              recipe.ID.Hex(),
-		IdUser:          recipe.IdUser.Hex(),
-		Title:           recipe.Title,
-		Description:     recipe.Description,
-		PreparationTime: recipe.PreparationTime,
-		ImageUrl:        recipe.ImageUrl,
-		Ingredients:     ingredients,
+	return entity.RecipeResponse{
+		Recipe: entity.Recipe{
+			Id:              recipe.ID.Hex(),
+			IdUser:          recipe.IdUser.Hex(),
+			Title:           recipe.Title,
+			Description:     recipe.Description,
+			PreparationTime: recipe.PreparationTime,
+			Ingredients:     ingredients,
+		},
 	}
 }
 
@@ -77,7 +77,6 @@ func (Recipe) FromEntity(recipe entity.Recipe) *Recipe {
 		Title:           recipe.Title,
 		Description:     recipe.Description,
 		PreparationTime: recipe.PreparationTime,
-		ImageUrl:        recipe.ImageUrl,
 		Ingredients:     ingredients,
 	}
 }

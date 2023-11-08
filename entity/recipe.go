@@ -1,11 +1,18 @@
 package entity
 
+import "mime/multipart"
+
 type Recipe struct {
-	Id              string        `json:"id"`
-	IdUser          string        `json:"idUser"`
-	Title           string        `json:"title"`
-	Description     string        `json:"description"`
-	PreparationTime int           `json:"preparationTime" example:"600" format:"int64"`
-	ImageUrl        string        `json:"imageUrl" example:"url da imagem" format:"string"`
-	Ingredients     []Ingredients `json:"ingredients"`
+	Id              string                  `form:"id" json:"id"`
+	IdUser          string                  `form:"idUser" json:"idUser" binding:"required"`
+	Title           string                  `form:"title" json:"title" binding:"required"`
+	Description     string                  `form:"description" json:"description" binding:"required"`
+	PreparationTime int                     `form:"preparationTime" json:"preparationTime" example:"600" format:"int64" binding:"required"`
+	Images          []*multipart.FileHeader `form:"images" example:"arquivos de imagens" json:"images" format:"blob" binding:"required"`
+	Ingredients     []Ingredients           `form:"ingredients" json:"ingredients"`
+}
+
+type RecipeResponse struct {
+	Recipe
+	Images []string `json:"images"`
 }
