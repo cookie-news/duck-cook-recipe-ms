@@ -3,6 +3,7 @@ package controller
 import (
 	"duck-cook-recipe/entity"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -84,6 +85,31 @@ func (c *Controller) GetRecipeHandler(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, recipe)
+}
+
+// @Summary		Retorna as receita paginadas
+// @Description	Retorna as receita paginadas
+// @Tags		recipe
+// @Accept		json
+// @Produce		json
+// @Param        page   path      int  true  "Número da page"
+// @Success		200		{object}	entity.Pagination
+// @Router		/page/{page} [get]
+func (c *Controller) GetPageRecipesHandler(ctx *gin.Context) {
+	pageStr := ctx.Param("page")
+	page, err := strconv.Atoi(pageStr)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "page not valid"})
+		return
+	}
+
+	pageRecipes, err := c.recipeRepository.GetAllRecipe(page)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, pageRecipes)
 }
 
 // @Summary		Retonar as receitas do usuário
