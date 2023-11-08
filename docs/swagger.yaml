@@ -37,11 +37,9 @@ definitions:
         type: string
       idUser:
         type: string
-      imageUrl:
-        example: url da imagem
-        format: string
-        type: string
       ingredients:
+        description: Images          []*multipart.FileHeader `form:"images" example:"arquivos
+          de imagens" json:"images" format:"file" binding:"required"`
         items:
           $ref: '#/definitions/entity.Ingredients'
         type: array
@@ -51,6 +49,11 @@ definitions:
         type: integer
       title:
         type: string
+    required:
+    - description
+    - idUser
+    - preparationTime
+    - title
     type: object
 info:
   contact: {}

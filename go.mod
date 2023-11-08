@@ -31,6 +31,7 @@ require (
 	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect
 	github.com/bytedance/sonic v1.9.1 // indirect
 	github.com/google/uuid v1.4.0 // indirect
+	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/supabase-community/storage-go v0.7.0 // indirect
 )
 

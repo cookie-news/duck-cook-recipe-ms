@@ -500,6 +500,12 @@ const docTemplate = `{
         },
         "entity.Recipe": {
             "type": "object",
+            "required": [
+                "description",
+                "idUser",
+                "preparationTime",
+                "title"
+            ],
             "properties": {
                 "description": {
                     "type": "string"
@@ -510,12 +516,8 @@ const docTemplate = `{
                 "idUser": {
                     "type": "string"
                 },
-                "imageUrl": {
-                    "type": "string",
-                    "format": "string",
-                    "example": "url da imagem"
-                },
                 "ingredients": {
+                    "description": "Images          []*multipart.FileHeader ` + "`" + `form:\"images\" example:\"arquivos de imagens\" json:\"images\" format:\"file\" binding:\"required\"` + "`" + `",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/entity.Ingredients"

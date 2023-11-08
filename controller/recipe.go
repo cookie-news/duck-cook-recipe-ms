@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/mitchellh/mapstructure"
 )
 
 // @Summary		Adicionar nova receita
@@ -109,9 +110,18 @@ func (c *Controller) GetPageRecipesHandler(ctx *gin.Context) {
 		return
 	}
 
-	files, _ := c.recipeStorage.ListFiles("654ae0e7bba9ba3ad1db8bb4")
+	var itens []map[string]interface{}
 
-	ctx.JSON(http.StatusOK, gin.H{"pageRecipes": pageRecipes, "files": files})
+	mapstructure.Decode(pageRecipes.Items, &itens)
+
+	for _, item := range itens {
+		files, _ := c.recipeStorage.ListFiles(item["Recipe"].(map[string]interface{})["Id"].(string))
+		item["Images"] = files
+	}
+
+	pageRecipes.Items = itens
+
+	ctx.JSON(http.StatusOK, pageRecipes)
 }
 
 // @Summary		Retonar as receitas do usuário
