@@ -38,11 +38,11 @@ definitions:
       idUser:
         type: string
       ingredients:
-        description: Images          []*multipart.FileHeader `form:"images" example:"arquivos
-          de imagens" json:"images" format:"blob" binding:"required"`
         items:
           $ref: '#/definitions/entity.Ingredients'
         type: array
+      preparationMethod:
+        type: string
       preparationTime:
         example: 600
         format: int64
@@ -52,6 +52,7 @@ definitions:
     required:
     - description
     - idUser
+    - preparationMethod
     - preparationTime
     - title
     type: object

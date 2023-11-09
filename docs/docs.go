@@ -558,6 +558,7 @@ const docTemplate = `{
             "required": [
                 "description",
                 "idUser",
+                "preparationMethod",
                 "preparationTime",
                 "title"
             ],
@@ -572,11 +573,13 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "ingredients": {
-                    "description": "Images          []*multipart.FileHeader ` + "`" + `form:\"images\" example:\"arquivos de imagens\" json:\"images\" format:\"blob\" binding:\"required\"` + "`" + `",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/entity.Ingredients"
                     }
+                },
+                "preparationMethod": {
+                    "type": "string"
                 },
                 "preparationTime": {
                     "type": "integer",

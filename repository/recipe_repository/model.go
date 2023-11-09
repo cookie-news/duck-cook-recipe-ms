@@ -8,14 +8,15 @@ import (
 )
 
 type Recipe struct {
-	ID              primitive.ObjectID `bson:"_id,omitempty"`
-	IdUser          primitive.ObjectID `bson:"idUser"`
-	CreatedAt       time.Time          `bson:"createdAt"`
-	UpdatedAt       time.Time          `bson:"updatedAt"`
-	Title           string             `bson:"title"`
-	Description     string             `bson:"description"`
-	PreparationTime int                `bson:"preparationTime"`
-	Ingredients     []Ingredient       `bson:"ingredients"`
+	ID                primitive.ObjectID `bson:"_id,omitempty"`
+	IdUser            primitive.ObjectID `bson:"idUser"`
+	CreatedAt         time.Time          `bson:"createdAt"`
+	UpdatedAt         time.Time          `bson:"updatedAt"`
+	Title             string             `bson:"title"`
+	Description       string             `bson:"description"`
+	PreparationTime   int                `bson:"preparationTime"`
+	PreparationMethod string             `bson:"preparationMethod"`
+	Ingredients       []Ingredient       `bson:"ingredients"`
 }
 
 type Ingredient struct {
@@ -50,12 +51,13 @@ func (recipe Recipe) ToEntityRecipeResponse() entity.RecipeResponse {
 
 	return entity.RecipeResponse{
 		Recipe: entity.Recipe{
-			Id:              recipe.ID.Hex(),
-			IdUser:          recipe.IdUser.Hex(),
-			Title:           recipe.Title,
-			Description:     recipe.Description,
-			PreparationTime: recipe.PreparationTime,
-			Ingredients:     ingredients,
+			Id:                recipe.ID.Hex(),
+			IdUser:            recipe.IdUser.Hex(),
+			Title:             recipe.Title,
+			Description:       recipe.Description,
+			PreparationTime:   recipe.PreparationTime,
+			PreparationMethod: recipe.PreparationMethod,
+			Ingredients:       ingredients,
 		},
 	}
 }
@@ -72,11 +74,12 @@ func (Recipe) FromEntity(recipe entity.Recipe) *Recipe {
 	}
 
 	return &Recipe{
-		ID:              id,
-		IdUser:          idUser,
-		Title:           recipe.Title,
-		Description:     recipe.Description,
-		PreparationTime: recipe.PreparationTime,
-		Ingredients:     ingredients,
+		ID:                id,
+		IdUser:            idUser,
+		Title:             recipe.Title,
+		Description:       recipe.Description,
+		PreparationTime:   recipe.PreparationTime,
+		PreparationMethod: recipe.PreparationMethod,
+		Ingredients:       ingredients,
 	}
 }
