@@ -121,6 +121,11 @@ paths:
         name: preparationTime
         required: true
         type: integer
+      - description: Metodo de Preparação da Receita
+        in: formData
+        name: preparationMethod
+        required: true
+        type: string
       - description: Imagem da Receita
         in: formData
         name: images

@@ -144,6 +144,13 @@ const docTemplate = `{
                         "required": true
                     },
                     {
+                        "type": "string",
+                        "description": "Metodo de Preparação da Receita",
+                        "name": "preparationMethod",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
                         "type": "file",
                         "description": "Imagem da Receita",
                         "name": "images",

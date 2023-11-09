@@ -19,6 +19,7 @@ import (
 // @Param title formData string true "Título da Receita"
 // @Param description formData string true "Descrição da Receita"
 // @Param preparationTime formData int true "Tempo de Preparação da Receita"
+// @Param preparationMethod formData string true "Metodo de Preparação da Receita"
 // @Param images formData file true "Imagem da Receita"
 // @Param ingredients formData string true "ingredientes da Receita"
 // @Success		200		{object}	entity.Recipe
