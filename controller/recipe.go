@@ -40,7 +40,8 @@ func (c *Controller) CreateRecipeHandler(ctx *gin.Context) {
 	url, err := c.recipeStorage.UploadImage(recipe.Images, recipeResponse.Id)
 
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "An error occurred while saving your profile photo, but the username was created successfully"})
+		c.recipeRepository.DeleteRecipe(recipeResponse.Id)
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
