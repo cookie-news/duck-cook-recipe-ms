@@ -35,7 +35,7 @@
                     {
                         "type": "integer",
                         "description": "Número da page",
-                        "name": "nameIngredin",
+                        "name": "nameIngredient",
                         "in": "query",
                         "required": true
                     }
@@ -522,7 +522,7 @@
                 "name": {
                     "type": "string"
                 },
-                "qty": {
+                "quantity": {
                     "type": "number"
                 }
             }

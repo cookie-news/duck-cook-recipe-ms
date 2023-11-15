@@ -12,7 +12,7 @@ definitions:
         type: string
       name:
         type: string
-      qty:
+      quantity:
         type: number
     type: object
   entity.Pagination:
@@ -77,7 +77,7 @@ paths:
         type: integer
       - description: Número da page
         in: query
-        name: nameIngredin
+        name: nameIngredient
         required: true
         type: integer
       produces:

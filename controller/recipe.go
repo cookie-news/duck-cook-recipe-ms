@@ -105,13 +105,13 @@ func (c *Controller) GetRecipeHandler(ctx *gin.Context) {
 // @Produce		json
 // @Param        page   path      int  true  "Número da page"
 // @Param        nameRecipe   query      int  true  "Recipe name"
-// @Param        nameIngredin   query      int  true  "Número da page"
+// @Param        nameIngredient   query      int  true  "Número da page"
 // @Success		200		{object}	entity.Pagination
 // @Router		/page/{page} [get]
 func (c *Controller) GetPageRecipesHandler(ctx *gin.Context) {
 	pageStr := ctx.Param("page")
 	nameRecipe := ctx.Query("nameRecipe")
-	nameIngredin := ctx.Query("nameIngredin")
+	nameIngredient := ctx.Query("nameIngredient")
 
 	page, err := strconv.Atoi(pageStr)
 	if err != nil {
@@ -119,7 +119,7 @@ func (c *Controller) GetPageRecipesHandler(ctx *gin.Context) {
 		return
 	}
 
-	pageRecipes, err := c.recipeRepository.GetAllRecipe(page, nameRecipe, nameIngredin)
+	pageRecipes, err := c.recipeRepository.GetAllRecipe(page, nameRecipe, nameIngredient)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

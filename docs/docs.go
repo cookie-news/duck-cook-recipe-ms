@@ -47,7 +47,7 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "description": "Número da page",
-                        "name": "nameIngredin",
+                        "name": "nameIngredient",
                         "in": "query",
                         "required": true
                     }
@@ -534,7 +534,7 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "qty": {
+                "quantity": {
                     "type": "number"
                 }
             }
