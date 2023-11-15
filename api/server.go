@@ -3,9 +3,11 @@ package api
 import (
 	"duck-cook-recipe/controller"
 	"duck-cook-recipe/docs"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-resty/resty/v2"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -43,37 +45,37 @@ func (s *Server) Start(addr string) error {
 	})
 
 	r.Use(func(ctx *gin.Context) {
-		// switch ctx.FullPath() {
-		// case "/swagger/*any":
-		// 	ctx.Next()
-		// 	return
-		// }
+		switch ctx.FullPath() {
+		case "/swagger/*any":
+			ctx.Next()
+			return
+		}
 
-		// auth := ctx.GetHeader("authorization")
+		auth := ctx.GetHeader("authorization")
 
-		// client := resty.New()
-		// client.BaseURL = os.Getenv("URL_AUTH")
+		client := resty.New()
+		client.BaseURL = os.Getenv("URL_AUTH")
 
-		// resp, err := client.R().
-		// 	SetHeader("authorization", auth).
-		// 	Post("/v1/auth/verify-jwt")
+		resp, err := client.R().
+			SetHeader("authorization", auth).
+			Post("/v1/auth/verify-jwt")
 
-		// if err != nil {
-		// 	ctx.JSON(http.StatusInternalServerError, gin.H{
-		// 		"error": err.Error(),
-		// 	})
-		// 	ctx.Abort()
-		// 	return
-		// }
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			ctx.Abort()
+			return
+		}
 
-		// if resp.StatusCode() == http.StatusNoContent {
-		// 	ctx.Next()
-		// 	return
-		// } else {
-		// 	ctx.String(resp.StatusCode(), resp.String())
-		// 	ctx.Abort()
-		// 	return
-		// }
+		if resp.StatusCode() == http.StatusNoContent {
+			ctx.Next()
+			return
+		} else {
+			ctx.String(resp.StatusCode(), resp.String())
+			ctx.Abort()
+			return
+		}
 	})
 
 	v1 := r.Group("/v1")
