@@ -175,6 +175,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/recipe/more-like": {
+            "get": {
+                "description": "Adicionar uma nova receita",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "recipe"
+                ],
+                "summary": "Adicionar nova receita",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.RecipeResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/recipe/{id}": {
             "get": {
                 "description": "Retorna a receita",
@@ -578,6 +601,50 @@ const docTemplate = `{
                 },
                 "idUser": {
                     "type": "string"
+                },
+                "ingredients": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Ingredients"
+                    }
+                },
+                "preparationMethod": {
+                    "type": "string"
+                },
+                "preparationTime": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 600
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.RecipeResponse": {
+            "type": "object",
+            "required": [
+                "description",
+                "idUser",
+                "preparationMethod",
+                "preparationTime",
+                "title"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "idUser": {
+                    "type": "string"
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "ingredients": {
                     "type": "array",

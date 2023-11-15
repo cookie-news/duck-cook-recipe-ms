@@ -184,3 +184,21 @@ func (c *Controller) DeleteRecipeHandler(ctx *gin.Context) {
 
 	ctx.String(http.StatusNoContent, "")
 }
+
+// @Summary		Adicionar nova receita
+// @Description	Adicionar uma nova receita
+// @Tags		recipe
+// @Accept		json
+// @Produce		json
+// @Success     200   {object}	entity.RecipeResponse[]
+// @Router		/recipe/more-like [GET]
+func (c Controller) GetRecipesMoreLikeHandler(ctx *gin.Context) {
+	recipes, err := c.recipeRepository.GetRecipesMoreLike()
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, recipes)
+}

@@ -56,6 +56,37 @@ definitions:
     - preparationTime
     - title
     type: object
+  entity.RecipeResponse:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      idUser:
+        type: string
+      images:
+        items:
+          type: string
+        type: array
+      ingredients:
+        items:
+          $ref: '#/definitions/entity.Ingredients'
+        type: array
+      preparationMethod:
+        type: string
+      preparationTime:
+        example: 600
+        format: int64
+        type: integer
+      title:
+        type: string
+    required:
+    - description
+    - idUser
+    - preparationMethod
+    - preparationTime
+    - title
+    type: object
 info:
   contact: {}
 paths:
@@ -250,6 +281,21 @@ paths:
       summary: Likes da receita
       tags:
       - like-recipe
+  /recipe/more-like:
+    get:
+      consumes:
+      - application/json
+      description: Adicionar uma nova receita
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.RecipeResponse'
+      summary: Adicionar nova receita
+      tags:
+      - recipe
   /user/{id}/recipe:
     get:
       consumes:

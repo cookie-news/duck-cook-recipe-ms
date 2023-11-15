@@ -25,6 +25,50 @@ type repositoryImpl struct {
 	recipeCollection *mongo.Collection
 }
 
+func (repo repositoryImpl) GetRecipesMoreLike() (recipes []entity.RecipeResponse, err error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	pipeline := []bson.M{
+		{
+			"$lookup": bson.M{
+				"from":         "LikeRecipe",
+				"localField":   "_id",
+				"foreignField": "idRecipe",
+				"as":           "likes",
+			},
+		},
+		{
+			"$addFields": bson.M{
+				"likeCount": bson.M{"$size": "$likes"},
+			},
+		},
+		{
+			"$sort": bson.M{
+				"likeCount": -1,
+			},
+		},
+		{
+			"$limit": 6,
+		},
+	}
+
+	curso, err := repo.recipeCollection.Aggregate(ctx, pipeline)
+	if err != nil {
+		return nil, err
+	}
+
+	for curso.Next(ctx) {
+		var recipe Recipe
+		if err := curso.Decode(&recipe); err != nil {
+			fmt.Println(err)
+		}
+
+		recipes = append(recipes, recipe.ToEntityRecipeResponse())
+	}
+
+	return
+}
+
 func (repo repositoryImpl) GetAllRecipe(page int, name, ingredient string) (pagination entity.Pagination, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -165,8 +209,8 @@ func (repo repositoryImpl) UpdateRecipe(recipe entity.Recipe) (entity.RecipeResp
 }
 
 func New(mongoDb mongo.Database) repository.RecipeRepository {
-	customerCollection := mongoDb.Collection(_mongo.COLLETCTION_RECIPE)
+	recipeCollection := mongoDb.Collection(_mongo.COLLETCTION_RECIPE)
 	return &repositoryImpl{
-		customerCollection,
+		recipeCollection,
 	}
 }

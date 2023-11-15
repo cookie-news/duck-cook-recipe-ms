@@ -9,4 +9,5 @@ type RecipeRepository interface {
 	GetAllRecipe(page int, name, ingredient string) (pagination entity.Pagination, err error)
 	DeleteRecipe(id string) error
 	GetRecipesByUser(user string) (recipes []entity.RecipeResponse, err error)
+	GetRecipesMoreLike() (recipes []entity.RecipeResponse, err error)
 }
