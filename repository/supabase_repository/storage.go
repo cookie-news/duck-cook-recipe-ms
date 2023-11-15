@@ -2,6 +2,7 @@ package supabase_repository
 
 import (
 	"duck-cook-recipe/api/repository"
+	"log"
 	"mime/multipart"
 	"os"
 
@@ -53,6 +54,7 @@ func (c *storageImpl) ListFiles(folderName string) (files []string, err error) {
 	filesStorage, err := c.client.ListFiles(c.bucketname, folderName, storage_go.FileSearchOptions{})
 
 	if err != nil {
+		log.Println("[SUPABASE]", err.Error())
 		return files, err
 	}
 
