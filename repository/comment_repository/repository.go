@@ -25,7 +25,8 @@ func (repo commentRepositortImpl) GetCommentsByRecipe(idRecipe string) (comments
 
 	findOptions := options.Find()
 	findOptions.SetSort(map[string]int{"updatedAt": -1})
-	curso, err := repo.commentCollection.Find(ctx, bson.M{"idRecipe": idRecipe}, findOptions)
+	objectIdRecipe, _ := primitive.ObjectIDFromHex(idRecipe)
+	curso, err := repo.commentCollection.Find(ctx, bson.M{"idRecipe": objectIdRecipe}, findOptions)
 
 	for curso.Next(ctx) {
 		var commentModel Comment

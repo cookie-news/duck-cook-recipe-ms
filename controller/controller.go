@@ -1,24 +1,30 @@
 package controller
 
-import "duck-cook-recipe/api/repository"
+import (
+	"duck-cook-recipe/api/repository"
+	"duck-cook-recipe/usecase"
+)
 
 type Controller struct {
 	recipeRepository     repository.RecipeRepository
-	commentRecipe        repository.CommentRecipeRepository
 	likeRecipeRepository repository.LikeRecipeRepository
 	recipeStorage        repository.RecipeStorage
+	commentRecipeUseCase usecase.CommentRecipeUseCase
+	userUseCase          usecase.UserUseCase
 }
 
 func NewController(
 	recipeRepository repository.RecipeRepository,
-	commentRecipeRepository repository.CommentRecipeRepository,
 	likeRecipeRepository repository.LikeRecipeRepository,
 	recipeStorage repository.RecipeStorage,
+	commentRecipeUseCase usecase.CommentRecipeUseCase,
+	userUseCase usecase.UserUseCase,
 ) Controller {
 	return Controller{
 		recipeRepository,
-		commentRecipeRepository,
 		likeRecipeRepository,
 		recipeStorage,
+		commentRecipeUseCase,
+		userUseCase,
 	}
 }

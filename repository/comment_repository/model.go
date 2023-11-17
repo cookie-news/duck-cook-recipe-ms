@@ -19,18 +19,16 @@ type Comment struct {
 func (comment Comment) ToEntityComment() entity.CommentRecipe {
 	return entity.CommentRecipe{
 		IdComment: comment.ID.Hex(),
-		Recipe: entity.Recipe{
-			Id:     comment.IdRecipe.Hex(),
-			IdUser: comment.IdUser.Hex(),
-		},
-		Message: comment.Message,
+		IdRecipe:  comment.IdRecipe.Hex(),
+		IdUser:    comment.IdUser.Hex(),
+		Message:   comment.Message,
 	}
 }
 
 func (Comment) FromEntity(comment entity.CommentRecipe) Comment {
 	id, _ := primitive.ObjectIDFromHex(comment.IdComment)
 	idUser, _ := primitive.ObjectIDFromHex(comment.IdUser)
-	idRecipe, _ := primitive.ObjectIDFromHex(comment.Id)
+	idRecipe, _ := primitive.ObjectIDFromHex(comment.IdRecipe)
 	return Comment{
 		ID:       id,
 		IdUser:   idUser,

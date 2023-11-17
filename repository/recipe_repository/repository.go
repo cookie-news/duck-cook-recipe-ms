@@ -173,7 +173,8 @@ func (repo repositoryImpl) GetRecipe(id string) (recipe entity.RecipeResponse, e
 func (repo repositoryImpl) GetRecipesByUser(user string) (recipes []entity.RecipeResponse, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
-	curso, err := repo.recipeCollection.Find(ctx, bson.M{"idUser": user})
+	objectUserId, _ := primitive.ObjectIDFromHex(user)
+	curso, err := repo.recipeCollection.Find(ctx, bson.M{"idUser": objectUserId})
 
 	for curso.Next(ctx) {
 		var recipeModel Recipe

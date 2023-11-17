@@ -2,6 +2,7 @@ package controller
 
 import (
 	"duck-cook-recipe/entity"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -23,14 +24,15 @@ func (c *Controller) CommentRecipeUserHandler(ctx *gin.Context) {
 
 	var commentRecipe entity.CommentRecipe
 	if err := ctx.ShouldBindJSON(&commentRecipe); err != nil {
+		fmt.Println(err.Error())
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Erro ao decodificar o JSON"})
 		return
 	}
 
 	commentRecipe.IdUser = userId
-	commentRecipe.Id = recipeId
+	commentRecipe.IdRecipe = recipeId
 
-	comment, err := c.commentRecipe.CommentRecipeByUser(commentRecipe)
+	comment, err := c.commentRecipeUseCase.CommentRecipeByUser(commentRecipe)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -49,8 +51,8 @@ func (c *Controller) CommentRecipeUserHandler(ctx *gin.Context) {
 // @Router		/recipe/{id}/comment [get]
 func (c *Controller) GetCommentsHandler(ctx *gin.Context) {
 	recipeId := ctx.Param("id")
-
-	comments, err := c.commentRecipe.GetCommentsByRecipe(recipeId)
+	auth := ctx.GetHeader("authorization")
+	comments, err := c.commentRecipeUseCase.GetCommentsByRecipe(recipeId, auth)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -74,12 +76,10 @@ func (c *Controller) DeleteCommentHandler(ctx *gin.Context) {
 	recipeId := ctx.Param("idRecipe")
 	idComment := ctx.Param("idComment")
 
-	err := c.commentRecipe.DeleteCommentRecipeByUser(entity.CommentRecipe{
+	err := c.commentRecipeUseCase.DeleteCommentRecipeByUser(entity.CommentRecipe{
 		IdComment: idComment,
-		Recipe: entity.Recipe{
-			Id:     recipeId,
-			IdUser: userId,
-		},
+		IdRecipe:  recipeId,
+		IdUser:    userId,
 	})
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
