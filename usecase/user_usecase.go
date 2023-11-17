@@ -54,8 +54,7 @@ func (usecase userUseCaseImpl) GetUserById(idUser, token string) (user entity.Us
 	mapstructure.Decode(user, &resultMap)
 	usecase.redisClient.HMSet(ctx, userIdKey, resultMap).Err()
 
-	err = usecase.redisClient.Expire(ctx, userIdKey, 10*time.Minute).Err()
-
+	err = usecase.redisClient.Expire(ctx, userIdKey, 30*time.Minute).Err()
 	return
 }
 
