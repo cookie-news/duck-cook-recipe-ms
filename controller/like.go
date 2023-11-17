@@ -68,14 +68,12 @@ func (c *Controller) GetLikesHandler(ctx *gin.Context) {
 // @Param       idLike  path      string  true    "Like ID"
 // @Param       authorization        header      string  true  "Token Bearer"
 // @Success     204 {string} string "No Content"
-// @Router		/user/{id}/recipe/{idRecipe}/like/{idLike} [delete]
+// @Router		/user/{id}/recipe/{idRecipe}/like [delete]
 func (c *Controller) DeleteLikeHandler(ctx *gin.Context) {
 	userId := ctx.Param("id")
 	recipeId := ctx.Param("idRecipe")
-	idLike := ctx.Param("idLike")
 
 	err := c.likeRecipeRepository.DeleteLikeRecipeByUser(entity.LikeRecipe{
-		IdLike: idLike,
 		Recipe: entity.Recipe{
 			Id:     recipeId,
 			IdUser: userId,
