@@ -3,7 +3,6 @@ package usecase
 import (
 	"context"
 	"duck-cook-recipe/api/repository"
-	"fmt"
 	"time"
 
 	"github.com/go-redis/redis/v8"
@@ -34,43 +33,29 @@ func (usecase *storageUseCaseImpl) ListFiles(folderName string) (files []string,
 		return
 	}
 
-	usecase.saveStringArray(folderIdKey, files)
-
+	if len(files) > 0 {
+		usecase.saveStringArray(folderIdKey, files)
+	}
 	return
 }
 
 func (usecase *storageUseCaseImpl) saveStringArray(key string, values []string) error {
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	data := make(map[string]interface{})
-	for i, value := range values {
-		data[fmt.Sprintf("%s:%d", key, i)] = value
-	}
-	_, err := usecase.redisClient.MSet(ctx, data).Result()
+	_, err := usecase.redisClient.RPush(ctx, key, values).Result()
 	return err
 }
 
 func (usecase *storageUseCaseImpl) getStringArray(key string) ([]string, error) {
-	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
 
-	keys, err := usecase.redisClient.Keys(ctx, fmt.Sprintf("%s:*", key)).Result()
+	result, err := usecase.redisClient.LRange(ctx, key, 0, -1).Result()
 	if err != nil {
 		return nil, err
 	}
 
-	result, err := usecase.redisClient.MGet(ctx, keys...).Result()
-	if err != nil {
-		return nil, err
-	}
-
-	var values []string
-	for _, v := range result {
-		if v != nil {
-			values = append(values, v.(string))
-		}
-	}
-
-	return values, nil
+	return result, nil
 }
 
 func NewStorageUseCase(
