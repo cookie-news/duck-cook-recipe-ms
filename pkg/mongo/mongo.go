@@ -17,7 +17,7 @@ const (
 
 func Connect() mongo.Database {
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-	opts := options.Client().ApplyURI(os.Getenv("MONGO_SRV")).SetServerAPIOptions(serverAPI)
+	opts := options.Client().ApplyURI(os.Getenv("MONGO_URL")).SetServerAPIOptions(serverAPI)
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	mongoClient, err := mongo.Connect(ctx, opts)

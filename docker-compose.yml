@@ -1,4 +1,16 @@
 services:
+  redis:
+    image: "redis:alpine"
+    ports:
+      - '6379:6379'
+    command: /bin/sh -c "redis-server --requirepass $$REDIS_PASSWORD"
+    volumes:
+      - cache:/data
+    container_name: duck_cook_auth_redis
+    env_file:
+      - redis.env    
+    networks:
+      - monitoring-network
   mongodb:
     image: mongo
     container_name: duck_cook_auth_mongodb
@@ -20,8 +32,8 @@ services:
     ports:
       - "8080:8080"
     depends_on:
+      - mongodb
       - redis
-      - prometheus  
     env_file:
       - .env
 
@@ -30,3 +42,4 @@ networks:
     driver: bridge   
 volumes:
   mongodb_data:    
+  cache:
