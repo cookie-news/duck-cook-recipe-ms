@@ -65,7 +65,7 @@ func (c *storageImpl) ListFiles(folderName string) (files []string, err error) {
 	return
 }
 
-func New(client storage_go.Client) repository.RecipeStorage {
+func New(client storage_go.Client) repository.RecipeStorageRepository {
 	bucketname := os.Getenv("SUPABASE_BUCKET_ID")
 	return &storageImpl{client, bucketname}
 }

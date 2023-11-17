@@ -37,8 +37,9 @@ func NewAppConfig() AppConfig {
 
 	userUseCase := usecase.NewUserUseCase(userRepository, redis)
 	commentUseCase := usecase.NewCommentRecipeUseCase(commentRepository, userUseCase)
+	storageUseCase := usecase.NewStorageUseCase(storageRecipe, redis)
 
-	controller := controller.NewController(recipeRepository, likeRepository, storageRecipe, commentUseCase, userUseCase)
+	controller := controller.NewController(recipeRepository, likeRepository, storageRecipe, commentUseCase, userUseCase,storageUseCase)
 	server := api.NewServer(controller)
 
 	return AppConfig{

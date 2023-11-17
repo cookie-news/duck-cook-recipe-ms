@@ -8,17 +8,19 @@ import (
 type Controller struct {
 	recipeRepository     repository.RecipeRepository
 	likeRecipeRepository repository.LikeRecipeRepository
-	recipeStorage        repository.RecipeStorage
+	recipeStorage        repository.RecipeStorageRepository
 	commentRecipeUseCase usecase.CommentRecipeUseCase
 	userUseCase          usecase.UserUseCase
+	storageUseCase       usecase.StorageUseCase
 }
 
 func NewController(
 	recipeRepository repository.RecipeRepository,
 	likeRecipeRepository repository.LikeRecipeRepository,
-	recipeStorage repository.RecipeStorage,
+	recipeStorage repository.RecipeStorageRepository,
 	commentRecipeUseCase usecase.CommentRecipeUseCase,
 	userUseCase usecase.UserUseCase,
+	storageUseCase usecase.StorageUseCase,
 ) Controller {
 	return Controller{
 		recipeRepository,
@@ -26,5 +28,6 @@ func NewController(
 		recipeStorage,
 		commentRecipeUseCase,
 		userUseCase,
+		storageUseCase,
 	}
 }

@@ -96,7 +96,7 @@ func (c *Controller) GetRecipeHandler(ctx *gin.Context) {
 		return
 	}
 
-	recipe.Images, _ = c.recipeStorage.ListFiles(recipeId)
+	recipe.Images, _ = c.storageUseCase.ListFiles(recipeId)
 
 	ctx.JSON(http.StatusOK, recipe)
 }
@@ -134,7 +134,7 @@ func (c *Controller) GetPageRecipesHandler(ctx *gin.Context) {
 	mapstructure.Decode(pageRecipes.Items, &itens)
 
 	for _, item := range itens {
-		files, _ := c.recipeStorage.ListFiles(item["Recipe"].(map[string]interface{})["Id"].(string))
+		files, _ := c.storageUseCase.ListFiles(item["Recipe"].(map[string]interface{})["Id"].(string))
 		item["Images"] = files
 	}
 
