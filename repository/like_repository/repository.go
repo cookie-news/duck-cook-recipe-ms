@@ -24,7 +24,7 @@ func (repo likeRepositortImpl) DeleteLikeRecipeByUser(like entity.LikeRecipe) er
 	if err != nil {
 		return err
 	}
-	objectIdUser, err := primitive.ObjectIDFromHex(like.IdLike)
+	objectIdUser, err := primitive.ObjectIDFromHex(like.IdUser)
 	if err != nil {
 		return err
 	}
