@@ -20,15 +20,26 @@ type likeRepositortImpl struct {
 func (repo likeRepositortImpl) DeleteLikeRecipeByUser(like entity.LikeRecipe) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
-	_, err := repo.likeCollection.DeleteOne(ctx, bson.M{"_id": like.IdLike})
+	objectIdRecipe, err := primitive.ObjectIDFromHex(like.Id)
+	if err != nil {
+		return err
+	}
+	objectIdUser, err := primitive.ObjectIDFromHex(like.IdLike)
+	if err != nil {
+		return err
+	}
+	_, err = repo.likeCollection.DeleteOne(ctx, bson.M{"idRecipe": objectIdRecipe, "idUser": objectIdUser})
 	return err
 }
 
 func (repo likeRepositortImpl) GetLikesByRecipe(idRecipe string) (count int64, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
-
-	count, err = repo.likeCollection.CountDocuments(ctx, bson.M{"idRecipe": idRecipe})
+	objectIdRecipe, err := primitive.ObjectIDFromHex(idRecipe)
+	if err != nil {
+		return
+	}
+	count, err = repo.likeCollection.CountDocuments(ctx, bson.M{"idRecipe": objectIdRecipe})
 	return
 }
 
