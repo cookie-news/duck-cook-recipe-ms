@@ -43,6 +43,11 @@ func (usecase *storageUseCaseImpl) saveStringArray(key string, values []string) 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	_, err := usecase.redisClient.RPush(ctx, key, values).Result()
+	if err != nil {
+		return err
+	}
+	ttl := 15 * time.Minute
+	_, err = usecase.redisClient.Expire(ctx, key, ttl).Result()
 	return err
 }
 
