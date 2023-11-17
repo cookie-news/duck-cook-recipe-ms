@@ -26,17 +26,24 @@
                         "required": true
                     },
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Recipe name",
                         "name": "nameRecipe",
                         "in": "query",
                         "required": true
                     },
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Número da page",
                         "name": "nameIngredient",
                         "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token Bearer",
+                        "name": "authorization",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -72,6 +79,13 @@
                         "schema": {
                             "$ref": "#/definitions/entity.Recipe"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token Bearer",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -151,6 +165,13 @@
                         "name": "ingredients",
                         "in": "formData",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token Bearer",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -176,6 +197,15 @@
                     "recipe"
                 ],
                 "summary": "Adicionar nova receita",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Token Bearer",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -201,10 +231,17 @@
                 "summary": "Retorna a receita",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Recipe ID",
                         "name": "id",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token Bearer",
+                        "name": "authorization",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -236,6 +273,13 @@
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token Bearer",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -260,10 +304,17 @@
                 "summary": "Comentarios da receita",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Recipe ID",
                         "name": "id",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token Bearer",
+                        "name": "authorization",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -300,6 +351,13 @@
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token Bearer",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -327,10 +385,17 @@
                 "summary": "Retonar as receitas do usuário",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "User ID",
                         "name": "id",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token Bearer",
+                        "name": "authorization",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -380,6 +445,13 @@
                         "schema": {
                             "$ref": "#/definitions/entity.CommentRecipe"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token Bearer",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -426,6 +498,13 @@
                         "name": "idComment",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token Bearer",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -453,17 +532,24 @@
                 "summary": "Like na receita",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "User ID",
                         "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "type": "integer",
-                        "description": "User ID",
+                        "type": "string",
+                        "description": "Recipe ID",
                         "name": "idRecipe",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token Bearer",
+                        "name": "authorization",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -492,24 +578,31 @@
                 "summary": "Deleta o like da receita",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "User ID",
                         "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Recipe ID",
                         "name": "idRecipe",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "type": "integer",
+                        "type": "string",
                         "description": "Like ID",
                         "name": "idLike",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token Bearer",
+                        "name": "authorization",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -531,7 +624,16 @@
                 "id": {
                     "type": "string"
                 },
+                "idRecipe": {
+                    "type": "string"
+                },
+                "idUser": {
+                    "type": "string"
+                },
                 "message": {
+                    "type": "string"
+                },
+                "userName": {
                     "type": "string"
                 }
             }

@@ -16,6 +16,7 @@ import (
 // @Param       id        path      int  true  "User ID"
 // @Param       idRecipe  path      int  true  "User ID"
 // @Param		payload	  body		entity.CommentRecipe	true	"Comentário"
+// @Param       authorization        header      string  true  "Token Bearer"
 // @Success		200		{object}	entity.Recipe
 // @Router		/user/{id}/recipe/{idRecipe}/comment [post]
 func (c *Controller) CommentRecipeUserHandler(ctx *gin.Context) {
@@ -46,7 +47,8 @@ func (c *Controller) CommentRecipeUserHandler(ctx *gin.Context) {
 // @Tags		comment-recipe
 // @Accept		json
 // @Produce		json
-// @Param       id        path      int  true  "Recipe ID"
+// @Param       id                   path        string  true  "Recipe ID"
+// @Param       authorization        header      string  true  "Token Bearer"
 // @Success		200		{object}	[]entity.CommentRecipe
 // @Router		/recipe/{id}/comment [get]
 func (c *Controller) GetCommentsHandler(ctx *gin.Context) {
@@ -69,6 +71,7 @@ func (c *Controller) GetCommentsHandler(ctx *gin.Context) {
 // @Param       id        path      int  true   "User ID"
 // @Param       idRecipe  path      int  true   "Recipe ID"
 // @Param       idComment  path      int  true  "Comment ID"
+// @Param       authorization        header      string  true  "Token Bearer"
 // @Success     204 {string} string "No Content"
 // @Router		/user/{id}/recipe/{idRecipe}/comment/{idComment} [delete]
 func (c *Controller) DeleteCommentHandler(ctx *gin.Context) {

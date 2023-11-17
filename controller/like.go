@@ -12,8 +12,9 @@ import (
 // @Tags		like-recipe
 // @Accept		json
 // @Produce		json
-// @Param       id        path      int  true  "User ID"
-// @Param       idRecipe  path      int  true  "User ID"
+// @Param       id        path      string  true  "User ID"
+// @Param       idRecipe  path      string  true  "Recipe ID"
+// @Param       authorization        header      string  true  "Token Bearer"
 // @Success		200		{object}	entity.Recipe
 // @Router		/user/{id}/recipe/{idRecipe}/like [post]
 func (c *Controller) LikeRecipeUserHandler(ctx *gin.Context) {
@@ -40,6 +41,7 @@ func (c *Controller) LikeRecipeUserHandler(ctx *gin.Context) {
 // @Accept		json
 // @Produce		json
 // @Param       id        path      int  true  "Recipe ID"
+// @Param       authorization        header      string  true  "Token Bearer"
 // @Success		200		{int}  100
 // @Router		/recipe/{id}/like [get]
 func (c *Controller) GetLikesHandler(ctx *gin.Context) {
@@ -61,9 +63,10 @@ func (c *Controller) GetLikesHandler(ctx *gin.Context) {
 // @Tags		like-recipe
 // @Accept		json
 // @Produce		json
-// @Param       id        path      int  true   "User ID"
-// @Param       idRecipe  path      int  true   "Recipe ID"
-// @Param       idLike  path      int  true    "Like ID"
+// @Param       id        path      string  true   "User ID"
+// @Param       idRecipe  path      string  true   "Recipe ID"
+// @Param       idLike  path      string  true    "Like ID"
+// @Param       authorization        header      string  true  "Token Bearer"
 // @Success     204 {string} string "No Content"
 // @Router		/user/{id}/recipe/{idRecipe}/like/{idLike} [delete]
 func (c *Controller) DeleteLikeHandler(ctx *gin.Context) {

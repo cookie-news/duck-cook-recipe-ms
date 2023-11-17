@@ -3,7 +3,13 @@ definitions:
     properties:
       id:
         type: string
+      idRecipe:
+        type: string
+      idUser:
+        type: string
       message:
+        type: string
+      userName:
         type: string
     type: object
   entity.Ingredients:
@@ -105,12 +111,17 @@ paths:
         in: query
         name: nameRecipe
         required: true
-        type: integer
+        type: string
       - description: Número da page
         in: query
         name: nameIngredient
         required: true
-        type: integer
+        type: string
+      - description: Token Bearer
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -167,6 +178,11 @@ paths:
         name: ingredients
         required: true
         type: string
+      - description: Token Bearer
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -188,6 +204,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/entity.Recipe'
+      - description: Token Bearer
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -209,6 +230,11 @@ paths:
         name: id
         required: true
         type: integer
+      - description: Token Bearer
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -226,7 +252,12 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
+      - description: Token Bearer
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -247,7 +278,12 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
+      - description: Token Bearer
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -271,6 +307,11 @@ paths:
         name: id
         required: true
         type: integer
+      - description: Token Bearer
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -286,6 +327,12 @@ paths:
       consumes:
       - application/json
       description: Adicionar uma nova receita
+      parameters:
+      - description: Token Bearer
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -306,7 +353,12 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
+      - description: Token Bearer
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -339,6 +391,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/entity.CommentRecipe'
+      - description: Token Bearer
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -370,6 +427,11 @@ paths:
         name: idComment
         required: true
         type: integer
+      - description: Token Bearer
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -390,12 +452,17 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
-      - description: User ID
+        type: string
+      - description: Recipe ID
         in: path
         name: idRecipe
         required: true
-        type: integer
+        type: string
+      - description: Token Bearer
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -416,17 +483,22 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       - description: Recipe ID
         in: path
         name: idRecipe
         required: true
-        type: integer
+        type: string
       - description: Like ID
         in: path
         name: idLike
         required: true
-        type: integer
+        type: string
+      - description: Token Bearer
+        in: header
+        name: authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:

@@ -22,6 +22,7 @@ import (
 // @Param preparationMethod formData string true "Metodo de Preparação da Receita"
 // @Param images formData file true "Imagem da Receita"
 // @Param ingredients formData string true "ingredientes da Receita"
+// @Param       authorization        header      string  true  "Token Bearer"
 // @Success		200		{object}	entity.Recipe
 // @Router		/recipe [post]
 func (c *Controller) CreateRecipeHandler(ctx *gin.Context) {
@@ -58,6 +59,7 @@ func (c *Controller) CreateRecipeHandler(ctx *gin.Context) {
 // @Accept		json
 // @Produce		json
 // @Param		payload	body		entity.Recipe	true	"Dados da receita"
+// @Param       authorization        header      string  true  "Token Bearer"
 // @Success		200		{object}	entity.Recipe
 // @Router		/recipe [put]
 func (c *Controller) UpdateRecipeHandler(ctx *gin.Context) {
@@ -81,7 +83,8 @@ func (c *Controller) UpdateRecipeHandler(ctx *gin.Context) {
 // @Tags		recipe
 // @Accept		json
 // @Produce		json
-// @Param        id   path      int  true  "Recipe ID"
+// @Param        id   path      string  true  "Recipe ID"
+// @Param       authorization        header      string  true  "Token Bearer"
 // @Success		200		{object}	entity.Recipe
 // @Router		/recipe/{id} [get]
 func (c *Controller) GetRecipeHandler(ctx *gin.Context) {
@@ -104,8 +107,9 @@ func (c *Controller) GetRecipeHandler(ctx *gin.Context) {
 // @Accept		json
 // @Produce		json
 // @Param        page   path      int  true  "Número da page"
-// @Param        nameRecipe   query      int  true  "Recipe name"
-// @Param        nameIngredient   query      int  true  "Número da page"
+// @Param        nameRecipe   query      string  true  "Recipe name"
+// @Param        nameIngredient   query      string  true  "Número da page"
+// @Param       authorization        header      string  true  "Token Bearer"
 // @Success		200		{object}	entity.Pagination
 // @Router		/page/{page} [get]
 func (c *Controller) GetPageRecipesHandler(ctx *gin.Context) {
@@ -144,7 +148,8 @@ func (c *Controller) GetPageRecipesHandler(ctx *gin.Context) {
 // @Tags		recipe
 // @Accept		json
 // @Produce		json
-// @Param        id   path      int  true  "User ID"
+// @Param        id   path      string  true  "User ID"
+// @Param       authorization        header      string  true  "Token Bearer"
 // @Success		200		{object}	entity.Recipe
 // @Router		/user/{id}/recipe [get]
 func (c *Controller) GetRecipeUserHandler(ctx *gin.Context) {
@@ -171,6 +176,7 @@ func (c *Controller) GetRecipeUserHandler(ctx *gin.Context) {
 // @Accept		json
 // @Produce		json
 // @Param        id   path      int  true  "Recipe ID"
+// @Param       authorization        header      string  true  "Token Bearer"
 // @Success     204   "No Content"
 // @Router		/recipe/{id} [delete]
 func (c *Controller) DeleteRecipeHandler(ctx *gin.Context) {
@@ -190,6 +196,7 @@ func (c *Controller) DeleteRecipeHandler(ctx *gin.Context) {
 // @Tags		recipe
 // @Accept		json
 // @Produce		json
+// @Param       authorization        header      string  true  "Token Bearer"
 // @Success     200   {object}	entity.RecipeResponse[]
 // @Router		/recipe/more-like [GET]
 func (c Controller) GetRecipesMoreLikeHandler(ctx *gin.Context) {
