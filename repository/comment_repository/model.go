@@ -22,6 +22,7 @@ func (comment Comment) ToEntityComment() entity.CommentRecipe {
 		IdRecipe:  comment.IdRecipe.Hex(),
 		IdUser:    comment.IdUser.Hex(),
 		Message:   comment.Message,
+		CreatedAt:  comment.CreatedAt,
 	}
 }
 
@@ -34,5 +35,6 @@ func (Comment) FromEntity(comment entity.CommentRecipe) Comment {
 		IdUser:   idUser,
 		IdRecipe: idRecipe,
 		Message:  comment.Message,
+		CreatedAt: comment.CreatedAt,
 	}
 }
