@@ -572,9 +572,7 @@ const docTemplate = `{
                         }
                     }
                 }
-            }
-        },
-        "/user/{id}/recipe/{idRecipe}/like/{idLike}": {
+            },
             "delete": {
                 "description": "Delete o like da receita",
                 "consumes": [
@@ -632,6 +630,9 @@ const docTemplate = `{
         "entity.CommentRecipe": {
             "type": "object",
             "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -644,8 +645,8 @@ const docTemplate = `{
                 "message": {
                     "type": "string"
                 },
-                "userName": {
-                    "type": "string"
+                "user": {
+                    "$ref": "#/definitions/entity.User"
                 }
             }
         },
@@ -762,6 +763,26 @@ const docTemplate = `{
                     "example": 600
                 },
                 "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.User": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "user": {
                     "type": "string"
                 }
             }
