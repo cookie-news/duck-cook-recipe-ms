@@ -35,7 +35,7 @@ func (usecase commentRecipeUseCaseImpl) GetCommentsByRecipe(idRecipe, token stri
 		if err != nil {
 			break
 		}
-		comments[index].UserName = user.Name
+		comments[index].User = user
 	}
 	return
 }
