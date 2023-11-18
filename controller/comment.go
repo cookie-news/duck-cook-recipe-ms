@@ -48,7 +48,6 @@ func (c *Controller) CommentRecipeUserHandler(ctx *gin.Context) {
 // @Accept		json
 // @Produce		json
 // @Param       id                   path        string  true  "Recipe ID"
-// @Param       authorization        header      string  true  "Token Bearer"
 // @Success		200		{object}	[]entity.CommentRecipe
 // @Router		/recipe/{id}/comment [get]
 func (c *Controller) GetCommentsHandler(ctx *gin.Context) {

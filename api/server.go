@@ -46,7 +46,11 @@ func (s *Server) Start(addr string) error {
 
 	r.Use(func(ctx *gin.Context) {
 		switch ctx.FullPath() {
-		case "/swagger/*any", "/v1/recipe/page/:page":
+		case
+			"/swagger/*any",
+			"/v1/recipe/page/:page",
+			"/v1/recipe/:id/comment",
+			"/v1/recipe/:id/like":
 			ctx.Next()
 			return
 		}

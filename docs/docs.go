@@ -312,13 +312,6 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Token Bearer",
-                        "name": "authorization",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -353,13 +346,6 @@ const docTemplate = `{
                         "description": "Recipe ID",
                         "name": "id",
                         "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Token Bearer",
-                        "name": "authorization",
-                        "in": "header",
                         "required": true
                     }
                 ],

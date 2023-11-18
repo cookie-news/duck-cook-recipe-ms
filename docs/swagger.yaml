@@ -258,11 +258,6 @@ paths:
         name: id
         required: true
         type: string
-      - description: Token Bearer
-        in: header
-        name: authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -286,11 +281,6 @@ paths:
         name: id
         required: true
         type: integer
-      - description: Token Bearer
-        in: header
-        name: authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
