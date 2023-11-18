@@ -17,3 +17,9 @@ type RecipeResponse struct {
 	Recipe
 	Images []string `json:"images"`
 }
+
+type RecipeCountLikeManyComments struct {
+	RecipeResponse
+	CountLikes    int `json:"countLikes"`
+	CountComments int `json:"countComments"`
+}

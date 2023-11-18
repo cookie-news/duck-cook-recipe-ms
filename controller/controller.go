@@ -12,6 +12,7 @@ type Controller struct {
 	commentRecipeUseCase usecase.CommentRecipeUseCase
 	userUseCase          usecase.UserUseCase
 	storageUseCase       usecase.StorageUseCase
+	recipeUseCase        usecase.RecipeUseCase
 }
 
 func NewController(
@@ -21,6 +22,7 @@ func NewController(
 	commentRecipeUseCase usecase.CommentRecipeUseCase,
 	userUseCase usecase.UserUseCase,
 	storageUseCase usecase.StorageUseCase,
+	recipeUseCase usecase.RecipeUseCase,
 ) Controller {
 	return Controller{
 		recipeRepository,
@@ -29,5 +31,6 @@ func NewController(
 		commentRecipeUseCase,
 		userUseCase,
 		storageUseCase,
+		recipeUseCase,
 	}
 }

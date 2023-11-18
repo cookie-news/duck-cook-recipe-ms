@@ -6,7 +6,6 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mitchellh/mapstructure"
 )
 
 // @Summary		Adicionar nova receita
@@ -122,22 +121,20 @@ func (c *Controller) GetPageRecipesHandler(ctx *gin.Context) {
 		return
 	}
 
-	pageRecipes, err := c.recipeRepository.GetAllRecipe(page, nameRecipe, nameIngredient)
+	pageRecipes, err := c.recipeUseCase.GetRecipeByPage(page, nameRecipe, nameIngredient)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	var itens []map[string]interface{}
+	recipes := pageRecipes.Items.([]entity.RecipeCountLikeManyComments)
 
-	mapstructure.Decode(pageRecipes.Items, &itens)
-
-	for _, item := range itens {
-		files, _ := c.storageUseCase.ListFiles(item["Recipe"].(map[string]interface{})["Id"].(string))
-		item["Images"] = files
+	for index, item := range recipes {
+		files, _ := c.storageUseCase.ListFiles(item.Id)
+		recipes[index].Images = files
 	}
 
-	pageRecipes.Items = itens
+	pageRecipes.Items = recipes
 
 	ctx.JSON(http.StatusOK, pageRecipes)
 }
