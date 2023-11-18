@@ -21,10 +21,12 @@ func (c *Controller) LikeRecipeUserHandler(ctx *gin.Context) {
 	userId := ctx.Param("id")
 	recipeId := ctx.Param("idRecipe")
 
-	var likeRecipe entity.LikeRecipe
-
-	likeRecipe.IdUser = userId
-	likeRecipe.Id = recipeId
+	likeRecipe := entity.LikeRecipe{
+		Recipe: entity.Recipe{
+			Id:     recipeId,
+			IdUser: userId,
+		},
+	}
 
 	_, err := c.likeRecipeRepository.LikeRecipeByUser(likeRecipe)
 	if err != nil {
@@ -33,6 +35,37 @@ func (c *Controller) LikeRecipeUserHandler(ctx *gin.Context) {
 	}
 
 	ctx.String(http.StatusNoContent, "")
+}
+
+// @Summary		Verifica o Like do usuário na receita
+// @Description	Verifica o Like do usuário na receita
+// @Tags		like-recipe
+// @Accept		json
+// @Produce		json
+// @Param       id        path      string  true  "User ID"
+// @Param       idRecipe  path      string  true  "Recipe ID"
+// @Param       authorization        header      string  true  "Token Bearer"
+// @Router		/user/{id}/recipe/{idRecipe}/like [get]
+func (c *Controller) CheckUserLikedRecipeHandler(ctx *gin.Context) {
+	userId := ctx.Param("id")
+	recipeId := ctx.Param("idRecipe")
+
+	likeRecipe := entity.LikeRecipe{
+		Recipe: entity.Recipe{
+			Id:     recipeId,
+			IdUser: userId,
+		},
+	}
+
+	liked, err := c.likeRecipeRepository.CheckRecipeIsLikedByUser(likeRecipe)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"liked": liked,
+	})
 }
 
 // @Summary		Likes da receita

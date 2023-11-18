@@ -99,6 +99,7 @@ func (s *Server) Start(addr string) error {
 				like := recipe.Group("/like")
 				{
 					like.POST("", s.controller.LikeRecipeUserHandler)
+					like.GET("", s.controller.CheckUserLikedRecipeHandler)
 					like.DELETE("", s.controller.DeleteLikeHandler)
 				}
 			}

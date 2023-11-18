@@ -17,6 +17,18 @@ type likeRepositortImpl struct {
 	likeCollection *mongo.Collection
 }
 
+func (repo likeRepositortImpl) CheckRecipeIsLikedByUser(like entity.LikeRecipe) (bool, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
+	defer cancel()
+
+	var likeModel Like
+	likeModel = likeModel.FromEntity(like)
+
+	count, err := repo.likeCollection.CountDocuments(ctx, bson.M{"idRecipe": likeModel.IdRecipe, "idUser": likeModel.IdUser})
+
+	return count > 0, err
+}
+
 func (repo likeRepositortImpl) DeleteLikeRecipeByUser(like entity.LikeRecipe) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()

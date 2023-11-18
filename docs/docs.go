@@ -156,15 +156,6 @@ const docTemplate = `{
                     "recipe"
                 ],
                 "summary": "Adicionar nova receita",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Token Bearer",
-                        "name": "authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -238,13 +229,6 @@ const docTemplate = `{
                         "description": "Recipe ID",
                         "name": "id",
                         "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Token Bearer",
-                        "name": "authorization",
-                        "in": "header",
                         "required": true
                     }
                 ],
@@ -507,6 +491,43 @@ const docTemplate = `{
             }
         },
         "/user/{id}/recipe/{idRecipe}/like": {
+            "get": {
+                "description": "Verifica o Like do usuário na receita",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "like-recipe"
+                ],
+                "summary": "Verifica o Like do usuário na receita",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Recipe ID",
+                        "name": "idRecipe",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token Bearer",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            },
             "post": {
                 "description": "Like na receita baseado no usuário",
                 "consumes": [

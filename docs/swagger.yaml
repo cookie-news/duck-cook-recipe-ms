@@ -232,11 +232,6 @@ paths:
         name: id
         required: true
         type: string
-      - description: Token Bearer
-        in: header
-        name: authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -296,12 +291,6 @@ paths:
       consumes:
       - application/json
       description: Adicionar uma nova receita
-      parameters:
-      - description: Token Bearer
-        in: header
-        name: authorization
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -474,6 +463,32 @@ paths:
           schema:
             type: string
       summary: Deleta o like da receita
+      tags:
+      - like-recipe
+    get:
+      consumes:
+      - application/json
+      description: Verifica o Like do usuário na receita
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Recipe ID
+        in: path
+        name: idRecipe
+        required: true
+        type: string
+      - description: Token Bearer
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: Verifica o Like do usuário na receita
       tags:
       - like-recipe
     post:
