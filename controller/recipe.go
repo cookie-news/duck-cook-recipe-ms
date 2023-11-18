@@ -83,7 +83,6 @@ func (c *Controller) UpdateRecipeHandler(ctx *gin.Context) {
 // @Accept		json
 // @Produce		json
 // @Param        id   path      string  true  "Recipe ID"
-// @Param       authorization        header      string  true  "Token Bearer"
 // @Success		200		{object}	entity.Recipe
 // @Router		/recipe/{id} [get]
 func (c *Controller) GetRecipeHandler(ctx *gin.Context) {
@@ -192,7 +191,6 @@ func (c *Controller) DeleteRecipeHandler(ctx *gin.Context) {
 // @Tags		recipe
 // @Accept		json
 // @Produce		json
-// @Param       authorization        header      string  true  "Token Bearer"
 // @Success     200   {object}	entity.RecipeResponse[]
 // @Router		/recipe/more-like [GET]
 func (c Controller) GetRecipesMoreLikeHandler(ctx *gin.Context) {
