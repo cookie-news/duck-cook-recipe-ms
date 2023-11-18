@@ -77,11 +77,34 @@ func (repo repositoryImpl) GetAllRecipe(page int, name, ingredient string) (pagi
 	skip := int64(p*limit - limit)
 	fOpt := options.FindOptions{Limit: &limit, Skip: &skip}
 
-	filter := bson.M{
-		"$or": []bson.M{
-			{"title": name},
-			{"ingredients.name": ingredient},
-		},
+	filterFields := []bson.M{}
+
+	if name != "" {
+		filterName := bson.M{
+			"title": bson.M{
+				"$regex":   name,
+				"$options": "i",
+			},
+		}
+		filterFields = append(filterFields, filterName)
+	}
+
+	if ingredient != "" {
+		filterIngredient := bson.M{
+			"ingredients.name": bson.M{
+				"$regex":   ingredient,
+				"$options": "i",
+			},
+		}
+		filterFields = append(filterFields, filterIngredient)
+	}
+
+	var filter bson.M
+
+	if len(filterFields) > 0 {
+		filter = bson.M{
+			"$or": filterFields,
+		}
 	}
 
 	curso, err := repo.recipeCollection.Find(ctx, filter, &fOpt)

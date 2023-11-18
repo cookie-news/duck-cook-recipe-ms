@@ -111,42 +111,6 @@ definitions:
 info:
   contact: {}
 paths:
-  /page/{page}:
-    get:
-      consumes:
-      - application/json
-      description: Retorna as receita paginadas
-      parameters:
-      - description: Número da page
-        in: path
-        name: page
-        required: true
-        type: integer
-      - description: Recipe name
-        in: query
-        name: nameRecipe
-        required: true
-        type: string
-      - description: Número da page
-        in: query
-        name: nameIngredient
-        required: true
-        type: string
-      - description: Token Bearer
-        in: header
-        name: authorization
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/entity.Pagination'
-      summary: Retorna as receita paginadas
-      tags:
-      - recipe
   /recipe:
     post:
       consumes:
@@ -356,6 +320,35 @@ paths:
           schema:
             $ref: '#/definitions/entity.RecipeResponse'
       summary: Adicionar nova receita
+      tags:
+      - recipe
+  /recipe/page/{page}:
+    get:
+      consumes:
+      - application/json
+      description: Retorna as receita paginadas
+      parameters:
+      - description: Número da page
+        in: path
+        name: page
+        required: true
+        type: integer
+      - description: Recipe name
+        in: query
+        name: nameRecipe
+        type: string
+      - description: Número da page
+        in: query
+        name: nameIngredient
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Pagination'
+      summary: Retorna as receita paginadas
       tags:
       - recipe
   /user/{id}/recipe:

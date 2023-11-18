@@ -4,59 +4,6 @@
         "contact": {}
     },
     "paths": {
-        "/page/{page}": {
-            "get": {
-                "description": "Retorna as receita paginadas",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "recipe"
-                ],
-                "summary": "Retorna as receita paginadas",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Número da page",
-                        "name": "page",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Recipe name",
-                        "name": "nameRecipe",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Número da page",
-                        "name": "nameIngredient",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Token Bearer",
-                        "name": "authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/entity.Pagination"
-                        }
-                    }
-                }
-            }
-        },
         "/recipe": {
             "put": {
                 "description": "Atualizar a receita",
@@ -211,6 +158,50 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/entity.RecipeResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/recipe/page/{page}": {
+            "get": {
+                "description": "Retorna as receita paginadas",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "recipe"
+                ],
+                "summary": "Retorna as receita paginadas",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Número da page",
+                        "name": "page",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Recipe name",
+                        "name": "nameRecipe",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Número da page",
+                        "name": "nameIngredient",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Pagination"
                         }
                     }
                 }

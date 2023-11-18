@@ -107,11 +107,10 @@ func (c *Controller) GetRecipeHandler(ctx *gin.Context) {
 // @Accept		json
 // @Produce		json
 // @Param        page   path      int  true  "Número da page"
-// @Param        nameRecipe   query      string  true  "Recipe name"
-// @Param        nameIngredient   query      string  true  "Número da page"
-// @Param       authorization        header      string  true  "Token Bearer"
+// @Param        nameRecipe   query      string  false  "Recipe name"
+// @Param        nameIngredient   query      string  false  "Número da page"
 // @Success		200		{object}	entity.Pagination
-// @Router		/page/{page} [get]
+// @Router		/recipe/page/{page} [get]
 func (c *Controller) GetPageRecipesHandler(ctx *gin.Context) {
 	pageStr := ctx.Param("page")
 	nameRecipe := ctx.Query("nameRecipe")
