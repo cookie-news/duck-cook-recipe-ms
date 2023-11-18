@@ -50,7 +50,9 @@ func (s *Server) Start(addr string) error {
 			"/swagger/*any",
 			"/v1/recipe/page/:page",
 			"/v1/recipe/:id/comment",
-			"/v1/recipe/:id/like":
+			"/v1/recipe/:id/like",
+			"/v1/recipe/:id",
+			"/v1/recipe/more-like":
 			ctx.Next()
 			return
 		}
