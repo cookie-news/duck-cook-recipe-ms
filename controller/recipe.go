@@ -150,18 +150,18 @@ func (c *Controller) GetPageRecipesHandler(ctx *gin.Context) {
 func (c *Controller) GetRecipeUserHandler(ctx *gin.Context) {
 	userId := ctx.Param("id")
 
-	recipe, err := c.recipeRepository.GetRecipesByUser(userId)
+	recipes, err := c.recipeRepository.GetRecipesByUser(userId)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	/*
-		@TODO FAZER URL DA IMAGEM
-	*/
-
+	for index, recipe := range recipes {
+		files, _ := c.storageUseCase.ListFiles(recipe.Id)
+		recipes[index].Images = files
+	}
 	ctx.JSON(http.StatusOK,
-		recipe,
+		recipes,
 	)
 }
 
