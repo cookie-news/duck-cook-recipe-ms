@@ -16,7 +16,7 @@ type Recipe struct {
 	Description       string             `bson:"description"`
 	PreparationTime   int                `bson:"preparationTime"`
 	PreparationMethod string             `bson:"preparationMethod"`
-	Ingredients       string             `bson:"ingredients"`
+	Ingredients       []string           `bson:"ingredients"`
 }
 
 func (recipe Recipe) ToEntityRecipeResponse() entity.RecipeResponse {
