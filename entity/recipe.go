@@ -9,7 +9,7 @@ type Recipe struct {
 	Description       string                  `form:"description" json:"description" binding:"required"`
 	PreparationMethod string                  `form:"preparationMethod" binding:"required" json:"preparationMethod"`
 	PreparationTime   int                     `form:"preparationTime" json:"preparationTime" example:"600" format:"int64" binding:"required"`
-	Images            []*multipart.FileHeader `form:"images" example:"arquivos de imagens" json:"images" format:"blob" binding:"required" swaggerignore:"true"`
+	Images            []*multipart.FileHeader `form:"images" example:"arquivos de imagens" json:"images" format:"blob" swaggerignore:"true"`
 	Ingredients       []string                `form:"ingredients" json:"ingredients"`
 }
 

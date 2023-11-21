@@ -19,13 +19,60 @@
                 "summary": "Atualizar a receita",
                 "parameters": [
                     {
-                        "description": "Dados da receita",
-                        "name": "payload",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.Recipe"
-                        }
+                        "type": "string",
+                        "description": "ID da Receita",
+                        "name": "id",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "ID do Usuário",
+                        "name": "idUser",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Título da Receita",
+                        "name": "title",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Descrição da Receita",
+                        "name": "description",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Tempo de Preparação da Receita",
+                        "name": "preparationTime",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Metodo de Preparação da Receita",
+                        "name": "preparationMethod",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Imagem da Receita",
+                        "name": "images",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "ingredientes da Receita",
+                        "name": "ingredients",
+                        "in": "formData",
+                        "required": true
                     },
                     {
                         "type": "string",
@@ -57,13 +104,6 @@
                 ],
                 "summary": "Adicionar nova receita",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "ID da Receita",
-                        "name": "id",
-                        "in": "formData",
-                        "required": true
-                    },
                     {
                         "type": "string",
                         "description": "ID do Usuário",
@@ -224,7 +264,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/entity.Recipe"
+                            "$ref": "#/definitions/entity.RecipeCountLikeManyComments"
                         }
                     }
                 }
@@ -676,6 +716,56 @@
                 },
                 "idUser": {
                     "type": "string"
+                },
+                "ingredients": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "preparationMethod": {
+                    "type": "string"
+                },
+                "preparationTime": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 600
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.RecipeCountLikeManyComments": {
+            "type": "object",
+            "required": [
+                "description",
+                "idUser",
+                "preparationMethod",
+                "preparationTime",
+                "title"
+            ],
+            "properties": {
+                "countComments": {
+                    "type": "integer"
+                },
+                "countLikes": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "idUser": {
+                    "type": "string"
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "ingredients": {
                     "type": "array",
