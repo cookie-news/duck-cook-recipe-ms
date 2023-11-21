@@ -46,7 +46,7 @@ func (usecase *storageUseCaseImpl) saveStringArray(key string, values []string) 
 	if err != nil {
 		return err
 	}
-	ttl := 15 * time.Minute
+	ttl := 60 * time.Minute
 	_, err = usecase.redisClient.Expire(ctx, key, ttl).Result()
 	return err
 }
