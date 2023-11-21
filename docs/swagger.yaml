@@ -14,15 +14,6 @@ definitions:
       user:
         $ref: '#/definitions/entity.User'
     type: object
-  entity.Ingredients:
-    properties:
-      measure:
-        type: string
-      name:
-        type: string
-      quantity:
-        type: number
-    type: object
   entity.Pagination:
     properties:
       currentPage:
@@ -46,9 +37,7 @@ definitions:
       idUser:
         type: string
       ingredients:
-        items:
-          $ref: '#/definitions/entity.Ingredients'
-        type: array
+        type: string
       preparationMethod:
         type: string
       preparationTime:
@@ -77,9 +66,7 @@ definitions:
           type: string
         type: array
       ingredients:
-        items:
-          $ref: '#/definitions/entity.Ingredients'
-        type: array
+        type: string
       preparationMethod:
         type: string
       preparationTime:

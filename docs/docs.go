@@ -649,20 +649,6 @@ const docTemplate = `{
                 }
             }
         },
-        "entity.Ingredients": {
-            "type": "object",
-            "properties": {
-                "measure": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "quantity": {
-                    "type": "number"
-                }
-            }
-        },
         "entity.Pagination": {
             "type": "object",
             "properties": {
@@ -704,10 +690,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "ingredients": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/entity.Ingredients"
-                    }
+                    "type": "string"
                 },
                 "preparationMethod": {
                     "type": "string"
@@ -748,10 +731,7 @@ const docTemplate = `{
                     }
                 },
                 "ingredients": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/entity.Ingredients"
-                    }
+                    "type": "string"
                 },
                 "preparationMethod": {
                     "type": "string"

@@ -16,39 +16,10 @@ type Recipe struct {
 	Description       string             `bson:"description"`
 	PreparationTime   int                `bson:"preparationTime"`
 	PreparationMethod string             `bson:"preparationMethod"`
-	Ingredients       []Ingredient       `bson:"ingredients"`
-}
-
-type Ingredient struct {
-	Name     string  `bson:"name"`
-	Quantity float64 `bson:"qty"`
-	Measure  string  `bson:"measure"`
-}
-
-func (ingredient Ingredient) ToEntity() entity.Ingredients {
-	return entity.Ingredients{
-		Name:    ingredient.Name,
-		Qty:     ingredient.Quantity,
-		Measure: ingredient.Measure,
-	}
-}
-
-func (Ingredient) FromEntity(ingredient entity.Ingredients) Ingredient {
-	return Ingredient{
-		Name:     ingredient.Name,
-		Quantity: ingredient.Qty,
-		Measure:  ingredient.Measure,
-	}
+	Ingredients       string             `bson:"ingredients"`
 }
 
 func (recipe Recipe) ToEntityRecipeResponse() entity.RecipeResponse {
-
-	var ingredients []entity.Ingredients
-
-	for _, ingredient := range recipe.Ingredients {
-		ingredients = append(ingredients, ingredient.ToEntity())
-	}
-
 	return entity.RecipeResponse{
 		Recipe: entity.Recipe{
 			Id:                recipe.ID.Hex(),
@@ -57,7 +28,7 @@ func (recipe Recipe) ToEntityRecipeResponse() entity.RecipeResponse {
 			Description:       recipe.Description,
 			PreparationTime:   recipe.PreparationTime,
 			PreparationMethod: recipe.PreparationMethod,
-			Ingredients:       ingredients,
+			Ingredients:       recipe.Ingredients,
 		},
 	}
 }
@@ -66,13 +37,6 @@ func (Recipe) FromEntity(recipe entity.Recipe) *Recipe {
 	id, _ := primitive.ObjectIDFromHex(recipe.Id)
 	idUser, _ := primitive.ObjectIDFromHex(recipe.IdUser)
 
-	var ingredients []Ingredient
-
-	for _, ingredient := range recipe.Ingredients {
-		var ingredientModel Ingredient
-		ingredients = append(ingredients, ingredientModel.FromEntity(ingredient))
-	}
-
 	return &Recipe{
 		ID:                id,
 		IdUser:            idUser,
@@ -80,6 +44,6 @@ func (Recipe) FromEntity(recipe entity.Recipe) *Recipe {
 		Description:       recipe.Description,
 		PreparationTime:   recipe.PreparationTime,
 		PreparationMethod: recipe.PreparationMethod,
-		Ingredients:       ingredients,
+		Ingredients:       recipe.Ingredients,
 	}
 }
