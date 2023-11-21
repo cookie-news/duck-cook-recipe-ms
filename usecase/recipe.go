@@ -21,12 +21,12 @@ func (usecase recipeUseCaseImpl) GetRecipe(id string) (recipe entity.RecipeCount
 	if err != nil {
 		return
 	}
-	countLikes, err := usecase.likeRecipeRepository.GetLikesByRecipe(recipe.Id)
+	countLikes, err := usecase.likeRecipeRepository.GetLikesByRecipe(id)
 	if err != nil {
 		return
 	}
 
-	comments, err := usecase.commentRecipeRepository.GetCommentsByRecipe(recipe.Id)
+	comments, err := usecase.commentRecipeRepository.GetCommentsByRecipe(id)
 	if err != nil {
 		return
 	}
