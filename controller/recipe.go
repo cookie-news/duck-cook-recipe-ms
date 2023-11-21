@@ -83,12 +83,12 @@ func (c *Controller) UpdateRecipeHandler(ctx *gin.Context) {
 // @Accept		json
 // @Produce		json
 // @Param        id   path      string  true  "Recipe ID"
-// @Success		200		{object}	entity.Recipe
+// @Success		200		{object}	entity.RecipeCountLikeManyComments
 // @Router		/recipe/{id} [get]
 func (c *Controller) GetRecipeHandler(ctx *gin.Context) {
 	recipeId := ctx.Param("id")
 
-	recipe, err := c.recipeRepository.GetRecipe(recipeId)
+	recipe, err := c.recipeUseCase.GetRecipe(recipeId)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
