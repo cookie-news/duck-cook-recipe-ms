@@ -678,7 +678,10 @@
                     "type": "string"
                 },
                 "ingredients": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "preparationMethod": {
                     "type": "string"
@@ -719,7 +722,10 @@
                     }
                 },
                 "ingredients": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "preparationMethod": {
                     "type": "string"

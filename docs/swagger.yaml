@@ -37,7 +37,9 @@ definitions:
       idUser:
         type: string
       ingredients:
-        type: string
+        items:
+          type: string
+        type: array
       preparationMethod:
         type: string
       preparationTime:
@@ -66,7 +68,9 @@ definitions:
           type: string
         type: array
       ingredients:
-        type: string
+        items:
+          type: string
+        type: array
       preparationMethod:
         type: string
       preparationTime:

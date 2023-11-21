@@ -690,7 +690,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "ingredients": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "preparationMethod": {
                     "type": "string"
@@ -731,7 +734,10 @@ const docTemplate = `{
                     }
                 },
                 "ingredients": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "preparationMethod": {
                     "type": "string"
