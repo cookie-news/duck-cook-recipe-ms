@@ -89,6 +89,7 @@ func (s *Server) Start(addr string) error {
 		user := v1.Group("/user/:id")
 		{
 			user.GET("/recipe", s.controller.GetRecipeUserHandler)
+			user.GET("/recipe/like", s.controller.GetRecipeLikeUserHandler)
 			recipe := user.Group("/recipe/:idRecipe")
 			{
 				comment := recipe.Group("comment")

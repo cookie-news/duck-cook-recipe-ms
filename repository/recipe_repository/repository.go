@@ -25,6 +25,44 @@ type repositoryImpl struct {
 	recipeCollection *mongo.Collection
 }
 
+func (repo repositoryImpl) GetRecipesLikedByUser(idUser string) (recipes []entity.RecipeResponse, err error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	objectIdUser, err := primitive.ObjectIDFromHex(idUser)
+	if err != nil {
+		return
+	}
+	pipeline := []bson.M{
+		{
+			"$match": bson.M{"idUser": objectIdUser},
+		},
+		{
+			"$lookup": bson.M{
+				"from":         "LikeRecipe",
+				"localField":   "_id",
+				"foreignField": "idRecipe",
+				"as":           "likes",
+			},
+		},
+	}
+
+	curso, err := repo.recipeCollection.Aggregate(ctx, pipeline)
+	if err != nil {
+		return nil, err
+	}
+
+	for curso.Next(ctx) {
+		var recipe Recipe
+		if err := curso.Decode(&recipe); err != nil {
+			fmt.Println(err)
+		}
+
+		recipes = append(recipes, recipe.ToEntityRecipeResponse())
+	}
+
+	return
+}
+
 func (repo repositoryImpl) GetRecipesMoreLike() (recipes []entity.RecipeResponse, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()

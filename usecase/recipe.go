@@ -9,12 +9,45 @@ type RecipeUseCase interface {
 	GetRecipeByPage(page int, name, ingredient string) (pagination entity.Pagination, err error)
 	GetRecipe(id string) (recipe entity.RecipeCountLikeManyComments, err error)
 	GetRecipeByUser(idUser string) (recipe []entity.RecipeCountLikeManyComments, err error)
+	GetRecipesLikedByUser(idUser string) (recipes []entity.RecipeCountLikeManyComments, err error)
 }
 
 type recipeUseCaseImpl struct {
 	recipeRepository        repository.RecipeRepository
 	likeRecipeRepository    repository.LikeRecipeRepository
 	commentRecipeRepository repository.CommentRecipeRepository
+	storageUseCase          StorageUseCase
+}
+
+func (usecase recipeUseCaseImpl) GetRecipesLikedByUser(idUser string) (recipes []entity.RecipeCountLikeManyComments, err error) {
+	recipesResult, err := usecase.recipeRepository.GetRecipesLikedByUser(idUser)
+
+	for _, recipe := range recipesResult {
+		countLikes, err := usecase.likeRecipeRepository.GetLikesByRecipe(recipe.Id)
+		if err != nil {
+			break
+		}
+
+		comments, err := usecase.commentRecipeRepository.GetCommentsByRecipe(recipe.Id)
+		if err != nil {
+			break
+		}
+
+		images, err := usecase.storageUseCase.ListFiles(recipe.Id)
+		if err != nil {
+			break
+		}
+
+		recipe.Images = images
+
+		recipes = append(recipes, entity.RecipeCountLikeManyComments{
+			RecipeResponse: recipe,
+			CountLikes:     int(countLikes),
+			CountComments:  len(comments),
+		})
+	}
+
+	return
 }
 
 func (usecase recipeUseCaseImpl) GetRecipeByUser(idUser string) (recipes []entity.RecipeCountLikeManyComments, err error) {
@@ -95,11 +128,13 @@ func NewRecipeUseCase(
 	recipeRepository repository.RecipeRepository,
 	likeRecipeRepository repository.LikeRecipeRepository,
 	commentRecipeRepository repository.CommentRecipeRepository,
+	storageUseCase StorageUseCase,
 
 ) RecipeUseCase {
 	return &recipeUseCaseImpl{
 		recipeRepository,
 		likeRecipeRepository,
 		commentRecipeRepository,
+		storageUseCase,
 	}
 }

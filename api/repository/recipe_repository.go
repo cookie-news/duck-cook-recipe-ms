@@ -10,4 +10,5 @@ type RecipeRepository interface {
 	DeleteRecipe(id string) error
 	GetRecipesByUser(user string) (recipes []entity.RecipeResponse, err error)
 	GetRecipesMoreLike() (recipes []entity.RecipeResponse, err error)
+	GetRecipesLikedByUser(idUser string) (recipes []entity.RecipeResponse, err error)
 }

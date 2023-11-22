@@ -214,3 +214,15 @@ func (c Controller) GetRecipesMoreLikeHandler(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, recipes)
 }
+
+func (c Controller) GetRecipeLikeUserHandler(ctx *gin.Context) {
+	userId := ctx.Param("id")
+
+	recipes, err := c.recipeUseCase.GetRecipesLikedByUser(userId)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, recipes)
+}
