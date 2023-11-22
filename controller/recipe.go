@@ -207,5 +207,10 @@ func (c Controller) GetRecipesMoreLikeHandler(ctx *gin.Context) {
 		return
 	}
 
+	for index, recipe := range recipes {
+		files, _ := c.storageUseCase.ListFiles(recipe.Id)
+		recipes[index].Images = files
+	}
+
 	ctx.JSON(http.StatusOK, recipes)
 }
