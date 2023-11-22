@@ -156,7 +156,7 @@ func (c *Controller) GetPageRecipesHandler(ctx *gin.Context) {
 func (c *Controller) GetRecipeUserHandler(ctx *gin.Context) {
 	userId := ctx.Param("id")
 
-	recipes, err := c.recipeRepository.GetRecipesByUser(userId)
+	recipes, err := c.recipeUseCase.GetRecipeByUser(userId)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

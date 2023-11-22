@@ -8,12 +8,36 @@ import (
 type RecipeUseCase interface {
 	GetRecipeByPage(page int, name, ingredient string) (pagination entity.Pagination, err error)
 	GetRecipe(id string) (recipe entity.RecipeCountLikeManyComments, err error)
+	GetRecipeByUser(idUser string) (recipe []entity.RecipeCountLikeManyComments, err error)
 }
 
 type recipeUseCaseImpl struct {
 	recipeRepository        repository.RecipeRepository
 	likeRecipeRepository    repository.LikeRecipeRepository
 	commentRecipeRepository repository.CommentRecipeRepository
+}
+
+func (usecase recipeUseCaseImpl) GetRecipeByUser(idUser string) (recipes []entity.RecipeCountLikeManyComments, err error) {
+	recipesResult, err := usecase.recipeRepository.GetRecipesByUser(idUser)
+
+	for _, recipe := range recipesResult {
+		countLikes, err := usecase.likeRecipeRepository.GetLikesByRecipe(recipe.Id)
+		if err != nil {
+			break
+		}
+
+		comments, err := usecase.commentRecipeRepository.GetCommentsByRecipe(recipe.Id)
+		if err != nil {
+			break
+		}
+		recipes = append(recipes, entity.RecipeCountLikeManyComments{
+			RecipeResponse: recipe,
+			CountLikes:     int(countLikes),
+			CountComments:  len(comments),
+		})
+	}
+
+	return
 }
 
 func (usecase recipeUseCaseImpl) GetRecipe(id string) (recipe entity.RecipeCountLikeManyComments, err error) {
