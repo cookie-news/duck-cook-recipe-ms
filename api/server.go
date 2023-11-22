@@ -57,13 +57,17 @@ func (s *Server) Start(addr string) error {
 			return
 		}
 
-		auth := ctx.GetHeader("authorization")
+		auth, err := ctx.Cookie("COOKIE_AUTH_TOKEN")
+		if err != nil {
+			ctx.Abort()
+			return
+		}
 
 		client := resty.New()
 		client.BaseURL = os.Getenv("URL_AUTH")
 
-		resp, err := client.R().
-			SetHeader("authorization", auth).
+		resp, _ := client.R().
+			SetHeader("authorization", "Bearer "+auth).
 			Post("/v1/auth/verify-jwt")
 
 		if err != nil {
