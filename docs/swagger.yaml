@@ -407,7 +407,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/entity.Recipe'
+            items:
+              $ref: '#/definitions/entity.RecipeCountLikeManyComments'
+            type: array
       summary: Retonar as receitas do usuário
       tags:
       - recipe

@@ -151,7 +151,7 @@ func (c *Controller) GetPageRecipesHandler(ctx *gin.Context) {
 // @Produce		json
 // @Param        id   path      string  true  "User ID"
 // @Param       authorization        header      string  true  "Token Bearer"
-// @Success		200		{object}	entity.Recipe
+// @Success		200		{object}	[]entity.RecipeCountLikeManyComments
 // @Router		/user/{id}/recipe [get]
 func (c *Controller) GetRecipeUserHandler(ctx *gin.Context) {
 	userId := ctx.Param("id")

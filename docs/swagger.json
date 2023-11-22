@@ -404,7 +404,10 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/entity.Recipe"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.RecipeCountLikeManyComments"
+                            }
                         }
                     }
                 }
