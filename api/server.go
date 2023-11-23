@@ -52,7 +52,9 @@ func (s *Server) Start(addr string) error {
 			"/v1/recipe/:id/comment",
 			"/v1/recipe/:id/like",
 			"/v1/recipe/:id",
-			"/v1/recipe/more-like":
+			"/v1/recipe/more-like",
+			"/v1/user/:id/recipe",
+			"/v1/user/:id/recipe/like":
 			ctx.Next()
 			return
 		}
