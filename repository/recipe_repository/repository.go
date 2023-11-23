@@ -51,10 +51,10 @@ func (repo repositoryImpl) GetRecipesLikedByUser(idUser string) (recipes []entit
 
 		recipe, err := repo.GetRecipe(like.Recipe.Id)
 		if err != nil {
-			break
+			fmt.Println(err)
+		}else{
+			recipes = append(recipes, recipe)
 		}
-
-		recipes = append(recipes, recipe)
 	}
 
 	return
