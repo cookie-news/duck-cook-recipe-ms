@@ -65,9 +65,9 @@ func (repo repositoryImpl) GetRecipesMoreLike() (recipes []entity.RecipeResponse
 	pipeline := []bson.M{
 		{
 			"$lookup": bson.M{
-				"from":         "LikeRecipe",
-				"localField":   "_id",
-				"foreignField": "idRecipe",
+				"from":         "Recipe",
+				"localField":   "idRecipe",
+				"foreignField": "_id",
 				"as":           "likes",
 			},
 		},
@@ -86,18 +86,25 @@ func (repo repositoryImpl) GetRecipesMoreLike() (recipes []entity.RecipeResponse
 		},
 	}
 
-	curso, err := repo.recipeCollection.Aggregate(ctx, pipeline)
+	curso, err := repo.likesCollection.Aggregate(ctx, pipeline)
 	if err != nil {
 		return nil, err
 	}
 
 	for curso.Next(ctx) {
-		var recipe Recipe
-		if err := curso.Decode(&recipe); err != nil {
+		var likeM like_repository.Like
+		if err := curso.Decode(&likeM); err != nil {
 			fmt.Println(err)
 		}
 
-		recipes = append(recipes, recipe.ToEntityRecipeResponse())
+		like := likeM.ToEntityLike()
+
+		recipe, err := repo.GetRecipe(like.Recipe.Id)
+		if err != nil {
+			break
+		}
+
+		recipes = append(recipes, recipe)
 	}
 
 	return
