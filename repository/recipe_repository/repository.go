@@ -5,6 +5,7 @@ import (
 	api_helper "duck-cook-recipe/api/helper"
 	"duck-cook-recipe/api/repository"
 	"duck-cook-recipe/entity"
+	"duck-cook-recipe/repository/like_repository"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -23,6 +24,7 @@ import (
 
 type repositoryImpl struct {
 	recipeCollection *mongo.Collection
+	likesCollection  *mongo.Collection
 }
 
 func (repo repositoryImpl) GetRecipesLikedByUser(idUser string) (recipes []entity.RecipeResponse, err error) {
@@ -32,32 +34,26 @@ func (repo repositoryImpl) GetRecipesLikedByUser(idUser string) (recipes []entit
 	if err != nil {
 		return
 	}
-	pipeline := []bson.M{
-		{
-			"$match": bson.M{"idUser": objectIdUser},
-		},
-		{
-			"$lookup": bson.M{
-				"from":         "LikeRecipe",
-				"localField":   "_id",
-				"foreignField": "idRecipe",
-				"as":           "likes",
-			},
-		},
-	}
 
-	curso, err := repo.recipeCollection.Aggregate(ctx, pipeline)
+	curso, err := repo.likesCollection.Find(ctx, bson.M{"idUser": objectIdUser})
 	if err != nil {
 		return nil, err
 	}
 
 	for curso.Next(ctx) {
-		var recipe Recipe
-		if err := curso.Decode(&recipe); err != nil {
+		var likeM like_repository.Like
+		if err := curso.Decode(&likeM); err != nil {
 			fmt.Println(err)
 		}
 
-		recipes = append(recipes, recipe.ToEntityRecipeResponse())
+		like := likeM.ToEntityLike()
+
+		recipe, err := repo.GetRecipe(like.Recipe.Id)
+		if err != nil {
+			break
+		}
+
+		recipes = append(recipes, recipe)
 	}
 
 	return
@@ -272,7 +268,9 @@ func (repo repositoryImpl) UpdateRecipe(recipe entity.Recipe) (entity.RecipeResp
 
 func New(mongoDb mongo.Database) repository.RecipeRepository {
 	recipeCollection := mongoDb.Collection(_mongo.COLLETCTION_RECIPE)
+	likesCollection := mongoDb.Collection(_mongo.COLLETCTION_LIKE_RECIPE)
 	return &repositoryImpl{
 		recipeCollection,
+		likesCollection,
 	}
 }
