@@ -14,6 +14,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/mitchellh/mapstructure"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -62,27 +63,30 @@ func (repo repositoryImpl) GetRecipesLikedByUser(idUser string) (recipes []entit
 func (repo repositoryImpl) GetRecipesMoreLike() (recipes []entity.RecipeResponse, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
+
 	pipeline := []bson.M{
 		{
 			"$lookup": bson.M{
 				"from":         "Recipe",
 				"localField":   "idRecipe",
 				"foreignField": "_id",
-				"as":           "likes",
+				"as":           "recipe",
 			},
 		},
+		{"$unwind": "$recipe"},
 		{
-			"$addFields": bson.M{
-				"likeCount": bson.M{"$size": "$likes"},
+			"$group": bson.M{
+				"_id":    "$idRecipe",
+				"likes":  bson.M{"$sum": 1},
+				"recipe": bson.M{"$first": "$recipe"},
 			},
 		},
+		{"$sort": bson.M{"likes": -1}},
+		{"$limit": 6},
 		{
-			"$sort": bson.M{
-				"likeCount": -1,
+			"$project": bson.M{
+				"recipe": "$recipe",
 			},
-		},
-		{
-			"$limit": 6,
 		},
 	}
 
@@ -92,22 +96,29 @@ func (repo repositoryImpl) GetRecipesMoreLike() (recipes []entity.RecipeResponse
 	}
 
 	for curso.Next(ctx) {
-		var likeM like_repository.Like
-		if err := curso.Decode(&likeM); err != nil {
+		var mapLike map[string]any
+		if err := curso.Decode(&mapLike); err != nil {
 			fmt.Println(err)
 		}
 
-		like := likeM.ToEntityLike()
+		var recipe Recipe
 
-		recipe, err := repo.GetRecipe(like.Recipe.Id)
-		if err != nil {
-			break
-		}
+		mapstructure.Decode(GetFieldsByMap(mapLike["recipe"].(map[string]any)), &recipe)
 
-		recipes = append(recipes, recipe)
+		recipes = append(recipes, recipe.ToEntityRecipeResponse())
 	}
 
 	return
+}
+
+func GetFieldsByMap(mapRecipe map[string]any) map[string]any {
+	for key, value := range mapRecipe {
+		if key == "IdUser" || key == "IdRecipe" || key == "ID" {
+			objectId, _ := primitive.ObjectIDFromHex(value.(string))
+			mapRecipe[key] = objectId
+		}
+	}
+	return mapRecipe
 }
 
 func (repo repositoryImpl) GetAllRecipe(page int, name, ingredient string) (pagination entity.Pagination, err error) {
