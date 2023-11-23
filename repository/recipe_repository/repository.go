@@ -103,22 +103,12 @@ func (repo repositoryImpl) GetRecipesMoreLike() (recipes []entity.RecipeResponse
 
 		var recipe Recipe
 
-		mapstructure.Decode(GetFieldsByMap(mapLike["recipe"].(map[string]any)), &recipe)
+		mapstructure.Decode(mapLike["recipe"].(map[string]any), &recipe)
 
 		recipes = append(recipes, recipe.ToEntityRecipeResponse())
 	}
 
 	return
-}
-
-func GetFieldsByMap(mapRecipe map[string]any) map[string]any {
-	for key, value := range mapRecipe {
-		if key == "IdUser" || key == "IdRecipe" || key == "ID" {
-			objectId, _ := primitive.ObjectIDFromHex(value.(string))
-			mapRecipe[key] = objectId
-		}
-	}
-	return mapRecipe
 }
 
 func (repo repositoryImpl) GetAllRecipe(page int, name, ingredient string) (pagination entity.Pagination, err error) {
